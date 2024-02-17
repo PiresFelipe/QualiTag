@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "dos Santos"
+  given-names: "Felipe Pires"
+  orcid: "https://orcid.org/0009-0002-3893-8929"
+title: "QualiTag"
+keywords:
+- qualitative
+- "data analysis"
+- coding
+license: MIT
+repository-code: "https://github.com/PiresFelipe/QualiTag"
+version: 0.0.0
+date-released: 2024-01-01
+
+
+
