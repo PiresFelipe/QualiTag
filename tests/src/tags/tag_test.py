@@ -1,4 +1,5 @@
 # pylint: skip-file
+# type: ignore
 import pytest
 from qualitag.src.tags import Tag
 
