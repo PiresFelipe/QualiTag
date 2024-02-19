@@ -19,7 +19,7 @@ def test_tag_default_description():
     assert tag.description is None
 
 
-def test_tag_comparations():
+def test_tag_comparisons():
     tag_a = Tag(name="Tag1", bg_color="red", fg_color="white", description="Desc")
     tag_b = Tag(name="tag1", bg_color="red", fg_color="white")
     tag_c = Tag(name="Tag2", bg_color="red", fg_color="yellow")
