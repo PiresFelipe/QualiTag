@@ -21,7 +21,7 @@ class TagGroup:
     -----------
     __contains__(self, value: Tag) -> bool:
         Checks if a tag is present in the group.
-    __del__(self) -> List[Tag]:
+    delete(self) -> List[Tag]:
         Deletes the tag group and returns its tags.
     add(self, item: Tag):
         Adds a tag to the group.
@@ -32,14 +32,22 @@ class TagGroup:
     """
     name: str = field(eq=str.lower, validator=instance_of(str))
     __tags: list[Tag] = field(default=[], eq=False, init=False, on_setattr=frozen)
-    description: str = field(default=None, validator=optional(instance_of(str)))
+    description: str = field(default=None, eq=False, validator=optional(instance_of(str)))
 
     def __contains__(self, value: Tag) -> bool:
         if not isinstance(value, Tag):
             return False
         return value in self.__tags
 
-    def __del__(self) -> list[Tag]:
+    def delete(self) -> list[Tag]:
+        """
+        Deletes the tag group and returns its tags.
+
+        Returns:
+        --------
+        List[Tag]
+            The tags of the group before deletion.
+        """
         return self.__tags
 
     def add(self, item: Tag):

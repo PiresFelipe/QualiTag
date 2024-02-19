@@ -23,11 +23,10 @@ def test_group_creation(tag_group):
 def test_name_comparisons(tag_group):
     group2 = TagGroup("test")
     group3 = TagGroup("Different", "Description")
-    
+
     assert tag_group == tag_group
     assert tag_group == group2
     assert not tag_group == group3
-    
 
 
 def test_add_tag(tag_group, tag):
