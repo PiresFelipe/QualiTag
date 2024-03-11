@@ -4,7 +4,7 @@
 name: "🚀 Feature Request"
 description: "I have a specific suggestion for QualiTag!"
 title: "[Feature]: "
-labels: ["needs triage", "Enhancement"]
+labels: ["enhancement"]
 body:
   - type: markdown
     attributes:
