@@ -8,7 +8,7 @@ body:
       value: |
         **Thanks for reporting an issue!** Please make sure you read our [issue guidelines](https://github.com/PiresFelipe/QualiTag/blob/main/.github/CONTRIBUTING.md) first, then fill out the fields below.
 
-        If you’re unsure whether the issue you’re having is a bug, you can post in [Discussions]() instead.
+        If you’re unsure whether the issue you’re having is a bug, you can post in [Discussions](https://github.com/PiresFelipe/QualiTag/discussions) instead.
 
   - type: checkboxes
     id: prerequisites

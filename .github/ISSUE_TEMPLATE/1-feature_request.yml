@@ -9,9 +9,9 @@ body:
   - type: markdown
     attributes:
       value: |
-        **Thanks for taking the time to suggest a new feature!** Please make sure you read our [issue guidelines]() first, then fill out the fields below.
+        **Thanks for taking the time to suggest a new feature!** Please make sure you read our [issue guidelines](https://github.com/PiresFelipe/QualiTag/blob/main/.github/CONTRIBUTING.md) first, then fill out the fields below.
 
-        If you feel an open-ended discussion with the community and QualiTag maintainers would be more suitable to forming the right details for your feature request, you can post in [Discussions]() instead.
+        If you feel an open-ended discussion with the community and QualiTag maintainers would be more suitable to forming the right details for your feature request, you can post in [Discussions](https://github.com/PiresFelipe/QualiTag/discussions) instead.
 
   - type: checkboxes
     id: prerequisites

@@ -4,8 +4,7 @@ title: "[Other]: "
 body:
   - type: markdown
     attributes:
-      value: |
-        > Remember, an issue is not the place to ask questions. You may want to start a discussion on the [QualiTag forum]() for this purpose.
+      value: "> Remember, an issue is not the place to ask questions. You may want to start a discussion on the [QualiTag forum](https://github.com/PiresFelipe/QualiTag/discussions) for this purpose."
 
   - type: markdown
     attributes:
