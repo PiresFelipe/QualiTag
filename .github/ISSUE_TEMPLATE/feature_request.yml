@@ -13,6 +13,19 @@ body:
 
         If you feel an open-ended discussion with the community and QualiTag maintainers would be more suitable to forming the right details for your feature request, you can post in [Discussions]() instead.
 
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      description: Please ensure you have completed all of the following.
+      options:
+        - label: I have read the [Contributing Guidelines](https://github.com/PiresFelipe/QualiTag/blob/main/.github/CONTRIBUTING.md#i-want-to-contribute).
+          required: true
+        - label: I agree to follow the [Code of Conduct](https://github.com/PiresFelipe/QualiTag/blob/main/.github/CODE_OF_CONDUCT.md).
+          required: true
+        - label: I have searched for [existing issues](https://github.com/PiresFelipe/QualiTag/issues) that already suggests something similar, without success.
+          required: true
+
   - type: textarea
     attributes:
       label: What problem are you trying to solve?
