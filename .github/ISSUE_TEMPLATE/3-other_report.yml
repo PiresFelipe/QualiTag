@@ -1,0 +1,35 @@
+name: "💡 Other Issue"
+description: I have an idea but it doesn't fit in with the other topics
+title: "[Other]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        > Remember, an issue is not the place to ask questions. You may want to start a discussion on the [QualiTag forum]() for this purpose.
+
+  - type: markdown
+    attributes:
+      - label: New blank issue
+      - value: |
+        **Thanks for sharing an issue/idea with us!** Please make sure you read our [code of conduct](https://github.com/PiresFelipe/QualiTag/blob/main/.github/CODE_OF_CONDUCT.md) first, then fill out the fields below.
+
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      description: Please ensure you have completed all of the following.
+      options:
+        - label: I have read the [Contributing Guidelines](https://github.com/PiresFelipe/QualiTag/blob/main/.github/CONTRIBUTING.md#i-want-to-contribute).
+          required: true
+        - label: I agree to follow the [Code of Conduct](https://github.com/PiresFelipe/QualiTag/blob/main/.github/CODE_OF_CONDUCT.md).
+          required: true
+        - label: I have searched for [existing issues](https://github.com/PiresFelipe/QualiTag/issues) that already suggests something similar, without success.
+          required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      - label: "What you'd like?"
+      - description: "A clear and concise description of what were you thinking, please add as much detail as possible"
+    validations:
+      required: true
