@@ -5,12 +5,31 @@ from . import Tag
 
 @define
 class TagGroup:
+    """
+    Represents a group of tags.
+
+    Attributes
+    ----------
+    name : str
+        The name of the tag group.
+    description : str or None, optional
+        The description of the tag group.
+
+    Methods
+    -------
+    add(tag)
+        Add a tag to the tag group.
+    remove(tag)
+        Remove a tag from the tag group.
+    get_tags()
+        Get the list of tags in the tag group.
+    """
 
     name: str = field(validator=instance_of(str), eq=str.lower)
     description: str | None = field(
         default=None, validator=optional(instance_of(str)), eq=False
     )
-    __tags: list[Tag] = field(factory=list, eq=False)
+    __tags: list[Tag] = field(factory=list, eq=False, init=False)
 
     def add(self, tag: Tag):
         """
@@ -25,9 +44,13 @@ class TagGroup:
         ------
         ValueError
             If the provided tag is not an instance of Tag.
+            Or if the tag is already present in the tag group.
         """
         if not isinstance(tag, Tag):
             raise ValueError("tag must be an instance of Tag")
+        if tag in self.__tags:
+            raise ValueError("Tag already present in the tag group")
+
         self.__tags.append(tag)
 
     def remove(self, tag: Tag | str):
@@ -54,10 +77,7 @@ class TagGroup:
         self.__tags.remove(tag)
 
     def get_tags(self) -> list[Tag]:
-            """
-            Get the list of tags in the tag group.
-
-            Returns:
-                list[Tag]: The list of tags in the tag group.
-            """
-            return self.__tags
+        """
+        Get the list of tags in the tag group.
+        """
+        return self.__tags.copy()
