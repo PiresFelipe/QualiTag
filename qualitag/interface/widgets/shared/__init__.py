@@ -1,3 +1,3 @@
-from .lateralBar import LateralBar 
+from .scroll_list import ScrollList
 
-__all__ = ["LateralBar"]
+__all__ = ["ScrollList"]
