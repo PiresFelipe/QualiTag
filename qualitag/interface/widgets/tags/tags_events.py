@@ -4,6 +4,10 @@ class TagEvent(Event):
     __observers: set[Observer] = set()
     __state: dict[str, str] | None = None
     
+    @property
+    def state(self) -> dict[str, str] | None:
+        return self.__state
+    
     def attach(self, observer: Observer):
         self.__observers.add(observer)
     
@@ -13,7 +17,7 @@ class TagEvent(Event):
     def notify(self):
         if self.__state is not None:
             for observer in self.__observers:
-                observer.on_event(self.__state)
+                observer.on_event(self)
     
     def generate_event(self, tag):
         """
@@ -24,7 +28,7 @@ class TagEvent(Event):
         tag : str
             The tag to generate an event for.
         """
-        if self.__state is not None:
+        if self.__state is None:
             self.__state = tag
             self.notify()
             self.__state = None
