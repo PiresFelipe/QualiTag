@@ -16,14 +16,13 @@ class CodingBox(ctk.CTkTextbox, Observer):
         # Subcribing to tags_manager events
         tags_manager.events.attach(self)
 
-        self.__build()
-
         # Binding selection events
-        self.bind("<B1-Motion> <ButtonRelease-1>", self.on_select)
-        self.bind("<Double-Button-1>", self.on_select)
+        self.bind("<B1-Motion> <ButtonRelease-1>", self.__on_select)
+        self.bind("<Double-Button-1>", self.__on_select)
 
-    def __build(self):
-        pass
+    def __on_select(self, event):
+
+        self.after(3, self.get_selection)
 
     def get_selection(self, as_index=False) -> tuple[str, str] | str | None:
         """
@@ -47,14 +46,10 @@ class CodingBox(ctk.CTkTextbox, Observer):
         except TclError:
             return None
 
-    def on_select(self, event):
-
-        self.after(3, self.get_selection)
-
     def on_event(self, event):
 
         if self.winfo_exists():
             selection = self.get_selection(as_index=True)
             if selection is not None:
-                print(selection)
-
+                self.tag_add(event.state['name'], *selection)
+                self.tag_config(event.state['name'], background=event.state['color'])
