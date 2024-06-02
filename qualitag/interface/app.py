@@ -1,5 +1,5 @@
 import customtkinter as ctk
-
+from widgets.tags import TagView
 
 class App(ctk.CTk):
 
