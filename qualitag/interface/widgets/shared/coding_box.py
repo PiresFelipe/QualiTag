@@ -1,7 +1,7 @@
 import customtkinter as ctk
 from tkinter import TclError
-from utils import Observer
-from widgets.tags import TagsManager
+from qualitag.interface.utils import Observer
+from qualitag.interface.widgets.tags.tags_manager import TagsManager
 
 
 class CodingBox(ctk.CTkTextbox, Observer):
@@ -46,6 +46,20 @@ class CodingBox(ctk.CTkTextbox, Observer):
         except TclError:
             return None
 
+    def get_codes(self) -> dict[str, list[str]]:
+        """
+        Get the tags in this text and texts associated.
+
+        Returns:
+        ---
+            dict[str, list[str]]: List of codes in the coding box.
+        """
+        tags = self.tag_names()
+        codes = {}
+        
+        for tag in tags:
+            pass
+
     def on_event(self, event):
 
         if self.winfo_exists():
@@ -53,3 +67,16 @@ class CodingBox(ctk.CTkTextbox, Observer):
             if selection is not None:
                 self.tag_add(event.state['name'], *selection)
                 self.tag_config(event.state['name'], background=event.state['color'])
+
+
+if __name__ == "__main__":
+    import sys
+    sys.path.append(".")
+    
+    root = ctk.CTk()
+    tags_manager = TagsManager()
+
+    coding_box = CodingBox(root, tags_manager)
+    coding_box.pack()
+
+    root.mainloop()

@@ -1,6 +1,6 @@
 from customtkinter import CTkButton
 from colour import Color
-from widgets.tags.tags_manager import TagsManager
+from qualitag.interface.widgets.tags.tags_manager import TagsManager
 
 
 class TagView(CTkButton):

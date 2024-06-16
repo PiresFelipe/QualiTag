@@ -1,4 +1,4 @@
-from utils import Event, Observer
+from qualitag.interface.utils import Event, Observer
 
 
 class TagEvent(Event):

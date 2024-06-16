@@ -1,4 +1,4 @@
-from widgets.tags.tags_events import TagEvent
+from qualitag.interface.widgets.tags.tags_events import TagEvent
 
 class TagsManager:
     def __init__(self) -> None:
