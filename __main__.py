@@ -15,6 +15,7 @@ class App(ctk.CTk):
 
         # App attributes
         self.__tag_manager = None
+        self.__events_manager = qtg.TagEventsManager()
         self.__tag_creator = None
 
         ctk.CTkButton(self, text="Create Tag", command=self.open_tag_creator).pack()

@@ -1,7 +1,7 @@
 from qualitag.interface.utils import Event, Observer
 
 
-class TagEvent(Event):
+class TagEventsManager(Event):
     __observers: set[Observer] = set()
     __state = None
 

@@ -1,6 +1,7 @@
+from typing import Optional
 from customtkinter import CTkButton
 from colour import Color
-from qualitag.interface.widgets.tags.tags_manager import TagsManager
+from qualitag.interface.widgets.tags.tags_events import TagEventsManager
 
 
 class TagView(CTkButton):
@@ -8,7 +9,7 @@ class TagView(CTkButton):
         self,
         *args,
         tag,
-        manager: TagsManager | None = None,
+        events_manager: TagEventsManager | None = None,
         width: int = 100,
         height: int = 32,
         **kwargs,
@@ -16,7 +17,7 @@ class TagView(CTkButton):
         super().__init__(*args, width=width, height=height, **kwargs)
 
         self.__tag = tag
-        self.__event = manager.events
+        self.__event = events_manager
         self.__bg = None
         self.__fg = None
 
