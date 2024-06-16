@@ -1,3 +1,4 @@
+from typing import Optional, Union
 from attrs import define, field
 from attrs.validators import instance_of, optional
 from . import Tag
@@ -26,7 +27,7 @@ class TagGroup:
     """
 
     name: str = field(validator=instance_of(str), eq=str.lower)
-    description: str | None = field(
+    description: Optional[str] = field(
         default=None, validator=optional(instance_of(str)), eq=False
     )
     __tags: list[Tag] = field(factory=list, eq=False, init=False)
@@ -53,7 +54,7 @@ class TagGroup:
 
         self.__tags.append(tag)
 
-    def remove(self, tag: Tag | str):
+    def remove(self, tag: Union[Tag, str]):
         """
         Remove a tag from the tag group.
 

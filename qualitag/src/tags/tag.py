@@ -1,4 +1,5 @@
 # pylint: disable=missing-module-docstring
+from typing import Optional
 from attrs import define, field
 from attrs.validators import instance_of, optional
 
@@ -6,34 +7,20 @@ from attrs.validators import instance_of, optional
 @define
 class Tag:
     """
-    A class representing a tag with its associated properties.
+    A class to represent a Tag with a name, color, and an optional description.
 
-    Parameters
+    Attributes
     ----------
     name : str
-        The name of the tag.
-    bg_color : str
-        The background color associated with the tag.
-    fg_color : str
-        The foreground color associated with the tag.
-    description : str or None, optional
-        The description of the tag, if available.
-
-    Notes
-    -----
-    - This class considers another tag class equal just \\
-    by the `name` parameter, and is not case-sensitive.
-
-    Examples
-    --------
-    >>> tag1 = Tag(name="important", bg_color="red",
-        fg_color="white", description="This tag signifies importance.")
-    >>> tag2 = Tag(name="low priority", bg_color="gray", fg_color="black")
+        The name of the tag. Comparison is case-insensitive.
+    color : str
+        The color of the tag.
+    description : str, optional
+        An optional description of the tag. Defaults to None.
     """
 
     name: str = field(validator=instance_of(str), eq=str.lower)
-    bg_color: str = field(validator=instance_of(str), eq=False)
-    fg_color: str = field(validator=instance_of(str), eq=False)
-    description: str | None = field(
+    color: str = field(validator=instance_of(str))
+    description: Optional[str] = field(
         default=None, validator=optional(instance_of(str)), eq=False
     )
