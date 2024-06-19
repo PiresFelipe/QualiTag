@@ -90,9 +90,21 @@ class TagPreview(CTkButton):
             hover_color=self.hover_color,
             cursor="hand2",
         )
-        
-        self.__name.trace_add("write", self.update)
-        self.__color.trace_add("write", self.update)
+
+        self.__name.trace_add("write", self.__update_view)
+        self.__color.trace_add("write", self.__update_view)
+
+    def __update_view(self, _var, *_):
+        if _var == str(self.__name):
+            self.configure(text=self.name)
+        elif _var == str(self.__color):
+            if len(self.__color.get()) == 7 or len(self.__color.get()) == 4:
+                self.configure(
+                    fg_color=self.background,
+                    border_color=self.foreground,
+                    text_color=self.foreground,
+                    hover_color=self.hover_color,
+                )
 
     @property
     def name(self):
