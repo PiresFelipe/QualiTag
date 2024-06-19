@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from tkinter import StringVar
-from qualitag.interface.widgets.tags.tag_view import TagView
+from qualitag.interface.widgets.tags.tag_views import TagPreview
+
 
 class TagCreator(ctk.CTkToplevel):
 
@@ -10,6 +11,13 @@ class TagCreator(ctk.CTkToplevel):
         self.name = StringVar()
         self.description = StringVar()
         self.color = StringVar()
+        self.color.set("#ffffff")
+
+        self.__tag = {
+            "name": self.name,
+            "color": self.color,
+            "desc": self.description,
+        }
 
         # Set window configuration
         self.title("Create a new Tag")
@@ -19,29 +27,15 @@ class TagCreator(ctk.CTkToplevel):
 
     def __build(self):
 
-        #self.__viewer = TagView(self, self.__manager)
+        self.__viewer = TagPreview(self, tag=self.__tag)
+        self.__viewer.pack()
+        
         self.__name_input = ctk.CTkEntry(self, textvariable=self.name)
-        self.__description_input = ctk.CTkTextbox(self)
-
         self.__name_input.pack()
+        self.after(10, self.__name_input.focus)
+        
+        self.__color_input = ctk.CTkEntry(self, textvariable=self.color)
+        self.__color_input.pack()
+        
+        self.__description_input = ctk.CTkTextbox(self)
         self.__description_input.pack()
-
-
-if __name__ == "__main__":
-
-    def open_toplevel(creator):
-        if creator is None or not creator.winfo_exists():
-            creator = TagCreator(root, None)
-        else:
-            creator.focus()
-        return creator
-
-    root = ctk.CTk()
-    creator = None
-
-    btn = ctk.CTkButton(
-        root, text="open toplevel", command=lambda: open_toplevel(creator)
-    )
-    btn.pack(side="top", padx=20, pady=20)
-
-    root.mainloop()
