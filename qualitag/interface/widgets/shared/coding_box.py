@@ -1,8 +1,7 @@
 import customtkinter as ctk
 from tkinter import TclError
 from qualitag.interface.utils import Observer
-from qualitag.interface.widgets.tags.tags_manager import TagsManager
-
+from qualitag.src import TagsManager
 
 class CodingBox(ctk.CTkTextbox, Observer):
 
@@ -14,7 +13,7 @@ class CodingBox(ctk.CTkTextbox, Observer):
         super().__init__(master, **kwargs)
 
         # Subcribing to tags_manager events
-        tags_manager.events.attach(self)
+        #tags_manager.events.attach(self)
 
         # Binding selection events
         self.bind("<B1-Motion> <ButtonRelease-1>", self.__on_select)
