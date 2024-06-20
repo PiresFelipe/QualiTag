@@ -21,7 +21,7 @@ class TagCreator(ctk.CTkToplevel):
 
         # Set window configuration
         self.title("Create a new Tag")
-        self.geometry("400x300")
+        self.geometry("500x350")
         self.resizable(False, False)
 
         self.__grid_config()
@@ -32,7 +32,8 @@ class TagCreator(ctk.CTkToplevel):
         self.grid_rowconfigure(1, weight=1)
         self.grid_rowconfigure(2, weight=2)
         self.grid_rowconfigure(3, weight=1)
-        self.grid_rowconfigure(4, weight=3)
+        self.grid_rowconfigure(4, weight=2)
+        self.grid_rowconfigure(5, weight=2)
 
         for i in range(5):
             self.grid_columnconfigure(i, weight=1)
@@ -49,23 +50,35 @@ class TagCreator(ctk.CTkToplevel):
         )
         self.__name_input = ctk.CTkEntry(self, textvariable=self.name)
         self.__name_input.grid(
-            row=2, column=0, columnspan=4, sticky="ew", pady=[0, 10], padx=10
+            row=2, column=0, columnspan=4, sticky="ew", pady=[0, 10], padx=10, ipady=5
         )
-        self.after(300, self.__name_input.focus)
 
         # Color input
         ctk.CTkLabel(self, text="Cor da tag:").grid(
             row=1, column=4, sticky="w", padx=10
         )
         self.__color_input = ctk.CTkEntry(self, textvariable=self.color)
-        self.__color_input.grid(row=2, column=4, sticky="ew", pady=[0, 10], padx=10)
+        self.__color_input.grid(row=2, column=4, sticky="ew", pady=[0, 10], padx=10, ipady=5)
 
         # Description input
         ctk.CTkLabel(self, text="Descrição da tag:\t(opcional)").grid(
             row=3, column=0, columnspan=5, sticky="w", padx=10
         )
-
         self.__description_input = ctk.CTkTextbox(self, border_width=2)
         self.__description_input.grid(
             row=4, column=0, columnspan=5, sticky="nsew", padx=10, pady=[0, 10]
+        )
+
+        # Buttons
+        ctk.CTkButton(
+            self,
+            text="Cancelar",
+            command=self.destroy,
+            fg_color="transparent",
+            hover_color="#dddddd",
+            text_color="#666666",
+            font=ctk.CTkFont(underline=True)
+        ).grid(row=5, column=3, sticky="nse", padx=10, pady=5, ipady=10, ipadx=0)
+        ctk.CTkButton(self, text="Criar").grid(
+            row=5, column=4, sticky="nsew", padx=[0, 10], pady=5, ipady=10
         )
