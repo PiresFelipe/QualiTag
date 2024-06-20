@@ -41,7 +41,7 @@ class TagView(CTkButton):
             command=self.__on_click,
         )
 
-    def __on_click(self, _):
+    def __on_click(self):
         self.__event.generate_event(self)
 
     @property

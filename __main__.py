@@ -13,15 +13,20 @@ class App(ctk.CTk):
         self.geometry("800x600")
 
         # App attributes
-        self.__tag_manager = None
+        self.__tag_manager = qtg.TagsManager()
         self.__events_manager = qtg.TagEventsManager()
         self.__tag_creator = None
 
         ctk.CTkButton(self, text="Create Tag", command=self.open_tag_creator).pack()
 
+        qtg.TagsList(
+            self, manager=self.__tag_manager, events=self.__events_manager
+        ).pack(fill="y", expand=True)
+
     def open_tag_creator(self):
         if self.__tag_creator is None or not self.__tag_creator.winfo_exists():
             self.__tag_creator = qtg.TagCreator(self)
+            self.__tag_creator.grab_set()
         else:
             self.__tag_creator.focus()
 
