@@ -1,57 +1,31 @@
-from __future__ import annotations
+from typing import Union
+from qualitag.src import Tag
+from qualitag.interface.widgets.tags.tag_views import TagView
 from abc import ABC, abstractmethod
+from attrs import define, field
+from attrs.validators import in_, instance_of
 
-class Event(ABC):
-    @abstractmethod
-    def attach(self, observer: Observer):
-            """
-            Attach an observer to the subject.
+EVENT_TYPES = ["created", "clicked"]
 
-            Parameters
-            ----------
-            observer : Observer
-                The observer to be attached.
 
-            Returns
-            -------
-            None
-            """
-            pass
-    
-    @abstractmethod
-    def detach(self, observer: Observer):
-            """
-            Detaches an observer from the subject.
+@define
+class Event:
+    """
+    Represents an event.
 
-            Parameters
-            ----------
-            observer : Observer
-                The observer to be detached.
+    Attributes
+    ----------
+    event_type : Literal["created", "clicked"]
+        The type of the event.
+    tag : TagView | Tag
+        The associated tag.
+    """
 
-            Returns
-            -------
-            None
-            """
-            pass
-    
-    @abstractmethod
-    def notify(self):
-            """
-            Notify the observer about an event.
+    event_type: str = field(validator=in_(EVENT_TYPES))
+    tag: Union[TagView, Tag] = field(validator=instance_of((TagView, Tag)))
 
-            This method is called to notify the observer about an event that has occurred.
-            Implementations of this method should handle the event accordingly.
-
-            Parameters:
-                self (EventObserver): The current instance of the EventObserver class.
-
-            Returns:
-                None
-            """
-            pass
 
 class Observer(ABC):
     @abstractmethod
     def on_event(self, event: Event):
         pass
-    
