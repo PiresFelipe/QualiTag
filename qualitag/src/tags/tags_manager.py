@@ -76,3 +76,13 @@ class TagsManager:
             del self.__tags[tag_name.lower()]
         except KeyError as exc:
             raise ValueError(f"Tag with name {tag_name} does not exist") from exc
+
+    def get_all_tags(self) -> list[Tag]:
+        """
+        Gets all the tags in the tags manager.
+
+        Returns:
+        ---
+            list[Tag]: The list of all tags in the tags manager.
+        """
+        return list(self.__tags.values())
