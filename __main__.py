@@ -11,7 +11,6 @@ class App(ctk.CTk):
         # App settings
         self.title("QualiTag")
         self.geometry("800x600")
-        self.resizable(False, False)
 
         # App attributes
         self.__tag_manager = None
