@@ -1,6 +1,5 @@
 from typing import Union
 from qualitag.src import Tag
-from qualitag.interface.widgets.tags.tag_views import TagView
 from abc import ABC, abstractmethod
 from attrs import define, field
 from attrs.validators import in_, instance_of
@@ -22,7 +21,7 @@ class Event:
     """
 
     event_type: str = field(validator=in_(EVENT_TYPES))
-    tag: Union[TagView, Tag] = field(validator=instance_of((TagView, Tag)))
+    tag: Union["TagView", Tag] = field()
 
 
 class Observer(ABC):

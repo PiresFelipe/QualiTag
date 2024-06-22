@@ -1,7 +1,6 @@
 from typing import Literal, Union
 from qualitag.src import Tag
 from qualitag.interface.utils import Event, Observer
-from qualitag.interface.widgets.tags.tag_views import TagView
 
 
 class TagEventsManager:
@@ -34,7 +33,7 @@ class TagEventsManager:
             observer.on_event(event)
 
     def generate_event(
-        self, event_type: Literal["created", "clicked"], tag: Union[TagView, Tag]
+        self, event_type: Literal["created", "clicked"], tag: Union["TagView", Tag]
     ):
         """
         Generate an event for the given tag.
