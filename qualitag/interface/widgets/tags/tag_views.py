@@ -3,7 +3,7 @@ from tkinter import StringVar
 
 from customtkinter import CTkButton
 from colour import Color
-from qualitag.interface.widgets.tags.tags_events import TagEventsManager
+from qualitag.interface.utils.tags_events import TagEventsManager
 from qualitag.src import Tag
 
 
@@ -42,7 +42,7 @@ class TagView(CTkButton):
         )
 
     def __on_click(self):
-        self.__event.generate_event(self)
+        self.__event.generate_event("clicked", self)
 
     @property
     def name(self):

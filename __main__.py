@@ -25,7 +25,9 @@ class App(ctk.CTk):
 
     def open_tag_creator(self):
         if self.__tag_creator is None or not self.__tag_creator.winfo_exists():
-            self.__tag_creator = qtg.TagCreator(self)
+            self.__tag_creator = qtg.TagCreator(
+                self, manager=self.__tag_manager, events=self.__events_manager
+            )
             self.__tag_creator.grab_set()
         else:
             self.__tag_creator.focus()
