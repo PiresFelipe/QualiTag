@@ -20,10 +20,14 @@ class TagsManager:
         Returns:
         ---
             Tag: The newly created tag.
+        
+        Raises:
+        ---
+            ValueError: If a tag with the given name already exists.
         """
         if self.tag_exists(name):
             raise ValueError(f"Tag with name {name} already exists")
-        
+
         self.__tags[name.lower()] = Tag(name=name, color=color, description=description)
 
         return Tag(name=name, color=color, description=description)
@@ -76,3 +80,15 @@ class TagsManager:
             del self.__tags[tag_name.lower()]
         except KeyError as exc:
             raise ValueError(f"Tag with name {tag_name} does not exist") from exc
+
+    def get_all_tags(self, sort: bool = False) -> list[Tag]:
+        """
+        Gets all the tags in the tags manager.
+
+        Returns:
+        ---
+            list[Tag]: The list of all tags in the tags manager.
+        """
+        if sort:
+            return sorted(self.__tags.values(), key=lambda tag: tag.name)
+        return list(self.__tags.values())
