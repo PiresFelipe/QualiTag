@@ -20,6 +20,10 @@ class TagsManager:
         Returns:
         ---
             Tag: The newly created tag.
+        
+        Raises:
+        ---
+            ValueError: If a tag with the given name already exists.
         """
         if self.tag_exists(name):
             raise ValueError(f"Tag with name {name} already exists")
