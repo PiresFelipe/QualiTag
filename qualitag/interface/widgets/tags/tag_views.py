@@ -49,6 +49,9 @@ class TagView(CTkButton):
         if len(self.__tag.name) > 10:
             return self.__tag.name[:10] + "..."
         return self.__tag.name
+    @property
+    def full_name(self):
+        return self.__tag.name
 
     @property
     def background(self):

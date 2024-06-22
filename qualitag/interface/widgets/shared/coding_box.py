@@ -1,27 +1,31 @@
+from typing import Optional
 import customtkinter as ctk
-from tkinter import TclError
+from tkinter import TclError, Event
 from qualitag.interface.utils import Observer
+from qualitag.interface.utils import TagEventsManager
 from qualitag.src import TagsManager
+
 
 class CodingBox(ctk.CTkTextbox, Observer):
 
-    def __init__(self, master, tags_manager: TagsManager, **kwargs):
+    def __init__(
+        self, master, tags_manager: TagsManager, events: TagEventsManager, **kwargs
+    ):
         assert isinstance(
             tags_manager, TagsManager
         ), "tags_manager must be an instance of TagsManager"
 
         super().__init__(master, **kwargs)
 
+        self.__debounce: Optional[str] = None
+
         # Subcribing to tags_manager events
-        #tags_manager.events.attach(self)
+        events.attach(self)
 
-        # Binding selection events
-        self.bind("<B1-Motion> <ButtonRelease-1>", self.__on_select)
-        self.bind("<Double-Button-1>", self.__on_select)
+        self.insert("1.0", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.")
 
-    def __on_select(self, event):
-
-        self.after(3, self.get_selection)
+    def __reset_debounce(self):
+        self.__debounce = None
 
     def get_selection(self, as_index=False) -> tuple[str, str] | str | None:
         """
@@ -55,27 +59,40 @@ class CodingBox(ctk.CTkTextbox, Observer):
         """
         tags = self.tag_names()
         codes = {}
-        
+
         for tag in tags:
             pass
 
     def on_event(self, event):
-
-        if self.winfo_exists():
+        if self.winfo_exists() and event.event_type == "clicked":
             selection = self.get_selection(as_index=True)
             if selection is not None:
-                self.tag_add(event.state['name'], *selection)
-                self.tag_config(event.state['name'], background=event.state['color'])
+                self.tag_add(event.tag.full_name, *selection)
+                self.tag_config(
+                    event.tag.full_name,
+                    background=event.tag.background,
+                    foreground=event.tag.foreground,
+                )
+                self.tag_bind(
+                    event.tag.full_name,
+                    "<Button-3>",
+                    lambda e: self.remove_tag(e, event.tag.full_name),
+                )
+                self.tag_raise("sel")
 
+    def remove_tag(self, event: Event, tag_name: str):
+        # get the index of the mouse click
+        index = event.widget.index(f"@{event.x},{event.y}")
 
-if __name__ == "__main__":
-    import sys
-    sys.path.append(".")
-    
-    root = ctk.CTk()
-    tags_manager = TagsManager()
+        # get the indices of all "adj" tags
+        tag_indices = self.tag_prevrange(tag_name, index)
+        if len(tag_indices) == 0:
+            tag_indices = self.tag_nextrange(tag_name, index)
+        print(tag_indices)
 
-    coding_box = CodingBox(root, tags_manager)
-    coding_box.pack()
+        if self.__debounce is not None:
+            self.after_cancel(self.__debounce)
 
-    root.mainloop()
+        self.__debounce = self.after(
+            100, lambda: self.tag_remove(tag_name, *tag_indices)
+        )
