@@ -1,13 +1,14 @@
 from os.path import splitext
 from .importer_base import ImporterBase
 from .excel_importer import ExcelImporter
+from .pdf_importer import PDFImporter
 
 
 def import_data(filepath: str):
     _, ext = splitext(filepath)
 
-    if ext == ".xlsx":
-        importer: ImporterBase = ExcelImporter(filepath)
+    if ext == ".pdf":
+        importer: ImporterBase = PDFImporter(filepath)
     else:
         raise ValueError(f"Unsupported file format: {ext}")
 

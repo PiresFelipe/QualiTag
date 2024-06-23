@@ -1,4 +1,4 @@
-from PyPDF2 import PdfFileReader
+from PyPDF2 import PdfReader
 
 from .importer_base import ImporterBase
 from ..questions import Answer
@@ -11,9 +11,9 @@ class PDFImporter(ImporterBase):
     def import_data(self) -> Answer:
         text = ""
         with open(self.filepath, "rb") as f:
-            reader = PdfFileReader(f)
+            reader = PdfReader(f)
             
-            for page in range(reader.getNumPages()):
-                text += reader.getPage(page).extract_text()
+            for page in reader.pages:
+                text += page.extract_text()
             
         return Answer(text)
