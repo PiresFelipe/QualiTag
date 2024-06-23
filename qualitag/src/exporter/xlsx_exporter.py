@@ -6,10 +6,5 @@ class ExcelExporter(ExporterBase):
         self.filepath = filepath
 
     def export(self, data):
-        df = {"tag": [], "answer": []}
-        for tag in data:
-            for answer in data[tag]:
-                df["tag"].append(tag)
-                df["answer"].append(answer)
-        df = self.as_dataframe(df)
+        df = self.as_dataframe(data)
         df.to_excel(self.filepath, index=False, sheet_name="Answers")
