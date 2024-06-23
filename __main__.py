@@ -17,22 +17,8 @@ class App(ctk.CTk):
         self.__events_manager = qtg.TagEventsManager()
         self.__tag_creator = None
 
-        self.__tag_manager.create_tag("Teste", "#ff0000")
-        self.__tag_manager.create_tag("verde", "#00ff00")
-        self.__tag_manager.create_tag("azul", "#0000ff")
-
-        ctk.CTkButton(self, text="Create Tag", command=self.open_tag_creator).pack(
-            side="left"
-        )
-
-        qtg.TagsList(
-            self, manager=self.__tag_manager, events=self.__events_manager
-        ).pack(fill="y", expand=True, side="left")
-        
-        code = qtg.CodingBox(
-            self, tags_manager=self.__tag_manager, events=self.__events_manager
-        )
-        code.pack(fill="both", expand=True, side="right")
+        self._screen = qtg.CreateProjectScreen(self)
+        self._screen.pack(fill="both", expand=True)
 
     def open_tag_creator(self):
         if self.__tag_creator is None or not self.__tag_creator.winfo_exists():
