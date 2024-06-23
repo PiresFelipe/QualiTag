@@ -105,7 +105,7 @@ class CodingBox(ctk.CTkTextbox, Observer):
         return codes
 
     def on_event(self, event):
-        if self.winfo_exists() and event.event_type == "clicked":
+        if self.winfo_exists() and self.winfo_ismapped() and event.event_type == "clicked":
             selection = self.get_selection(as_index=True)
             if selection is not None:
                 self.tag_add(event.tag.full_name, *selection)
