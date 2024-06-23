@@ -1,7 +1,7 @@
 from collections import defaultdict
 from typing import TypeAlias, Union
 
-TagsAssociation: TypeAlias = dict[str, list[tuple[int, int]]]
+TagsAssociation: TypeAlias = dict[str, set[tuple[int, int]]]
 
 
 class Answer:
@@ -9,10 +9,10 @@ class Answer:
     def __init__(self, text: str) -> None:
 
         self.text = text
-        self.__tags: TagsAssociation = defaultdict(list)
+        self.__tags: TagsAssociation = defaultdict(set)
 
     def associate_tag(self, tag: str, start: int, end: int) -> None:
-        self.__tags[tag].append((start, end))
+        self.__tags[tag].add((start, end))
 
     def dissociate_tag(self, tag: str, start: int, end: int) -> None:
         self.__tags[tag].remove((start, end))
