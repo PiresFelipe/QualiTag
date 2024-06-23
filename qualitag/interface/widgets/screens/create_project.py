@@ -49,7 +49,6 @@ class CreateProjectScreen(ctk.CTkFrame):
     def __import_data(self) -> list[Answer]:
         data = []
         folder = filedialog.askdirectory(initialdir=".")
-        print(folder)
         for file in os.listdir(folder):
             if file.endswith(".pdf"):
                 data.append(import_data(os.path.join(folder, file)))
