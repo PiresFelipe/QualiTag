@@ -3,13 +3,18 @@ import customtkinter as ctk
 from tkinter import TclError, Event
 from qualitag.interface.utils import Observer
 from qualitag.interface.utils import TagEventsManager
-from qualitag.src import TagsManager
+from qualitag.src import TagsManager, Answer
 
 
 class CodingBox(ctk.CTkTextbox, Observer):
 
     def __init__(
-        self, master, tags_manager: TagsManager, events: TagEventsManager, **kwargs
+        self,
+        master,
+        tags_manager: TagsManager,
+        events: TagEventsManager,
+        answer: Answer,
+        **kwargs,
     ):
         assert isinstance(
             tags_manager, TagsManager
@@ -17,12 +22,35 @@ class CodingBox(ctk.CTkTextbox, Observer):
 
         super().__init__(master, **kwargs)
 
+        self.__answer = answer
+
         self.__debounce: Optional[str] = None
 
         # Subcribing to tags_manager events
         events.attach(self)
-        
-        self.set_text("lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua")
+
+        self.set_text(self.__answer.text)
+
+    def __associate_tag(self, tag: str):
+        start = self.get_char_index("sel.first")
+        end = self.get_char_index("sel.last")
+        self.__answer.associate_tag(tag, start, end)
+
+    def __dissociate_tag(self, tag: str, _start: str, _end: str):
+        start = self.get_char_index(_start)
+        end = self.get_char_index(_end)
+        self.__answer.dissociate_tag(tag, start, end)
+        self.tag_remove(tag, _start, _end)
+
+    def get_char_index(self, index: str) -> int:
+        line, char = map(int, self.index(index).split("."))
+        char_index = 0
+        for i in range(line - 1):
+            char_index += (
+                len(self.get(f"{i + 1}.0", f"{i + 1}.end")) + 1
+            )  # +1 for line break
+        char_index += char
+        return char_index
 
     def set_text(self, text: str):
         """
@@ -73,7 +101,7 @@ class CodingBox(ctk.CTkTextbox, Observer):
             if tag == "sel":
                 continue
             codes[tag] = self.tag_ranges(tag)
-        print(codes)   
+        print(codes)
         return codes
 
     def on_event(self, event):
@@ -91,6 +119,9 @@ class CodingBox(ctk.CTkTextbox, Observer):
                     "<Button-3>",
                     lambda e: self.remove_tag(e, event.tag.full_name),
                 )
+
+                self.__associate_tag(event.tag.full_name)
+
                 self.tag_remove("sel", "sel.first", "sel.last")
                 self.tag_raise("sel")
 
@@ -107,5 +138,5 @@ class CodingBox(ctk.CTkTextbox, Observer):
             self.after_cancel(self.__debounce)
 
         self.__debounce = self.after(
-            100, lambda: self.tag_remove(tag_name, *tag_indices)
+            100, lambda: self.__dissociate_tag(tag_name, *tag_indices)
         )
