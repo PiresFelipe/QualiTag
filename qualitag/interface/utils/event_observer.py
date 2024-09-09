@@ -2,7 +2,7 @@ from typing import Union
 from qualitag.src import Tag
 from abc import ABC, abstractmethod
 from attrs import define, field
-from attrs.validators import in_, instance_of
+from attrs.validators import in_
 
 EVENT_TYPES = ["created", "clicked"]
 
