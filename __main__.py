@@ -45,7 +45,7 @@ class App(ctk.CTk):
 
         # Create buttons
         new_project_button = ctk.CTkButton(
-            self.__init_screen, text="Começar um novo projeto"
+            self.__init_screen, text="Começar um novo projeto", command=self.new_project
         )
         new_project_button.pack(pady=10)
 
@@ -69,6 +69,10 @@ class App(ctk.CTk):
             messagebox.showerror("Error", str(e))
             return
 
+        self.__init_screen.destroy()
+        self.get_tabview()
+
+    def new_project(self):
         self.__init_screen.destroy()
         self.get_tabview()
 
