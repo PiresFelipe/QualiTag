@@ -10,7 +10,6 @@ from qualitag.src import Tag
 class TagPrototype(TypedDict):
     name: StringVar
     color: StringVar
-    desc: StringVar
 
 
 class TagView(CTkButton):
@@ -81,7 +80,6 @@ class TagPreview(CTkButton):
 
         self.__name = tag["name"]
         self.__color = tag["color"]
-        self.__desc = tag["desc"]
 
         self.configure(
             corner_radius=height,

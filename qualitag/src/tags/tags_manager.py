@@ -1,5 +1,6 @@
 from typing import Optional, Union
 from .tag import Tag
+from collections import defaultdict
 
 # from .tag_group import TagGroup    ## future usage
 
@@ -10,6 +11,7 @@ class TagsManager:
 
         # self.__groups: list[TagGroup] = [] # future usage
         self.__tags: dict[str, Tag] = {}
+        self.__counter: defaultdict[str, int] = defaultdict(int)
 
     def create_tag(
         self, name: str, color: str, description: Optional[str] = None
@@ -20,7 +22,7 @@ class TagsManager:
         Returns:
         ---
             Tag: The newly created tag.
-        
+
         Raises:
         ---
             ValueError: If a tag with the given name already exists.
@@ -78,6 +80,7 @@ class TagsManager:
 
         try:
             del self.__tags[tag_name.lower()]
+            del self.__counter[tag_name.lower()]
         except KeyError as exc:
             raise ValueError(f"Tag with name {tag_name} does not exist") from exc
 
@@ -92,3 +95,37 @@ class TagsManager:
         if sort:
             return sorted(self.__tags.values(), key=lambda tag: tag.name)
         return list(self.__tags.values())
+
+    def increase_counter(self, tag_name: str) -> None:
+        """
+        Increases the counter of the given tag.
+
+        Args:
+        ---
+            tag_name (str): The name of the tag to increase the counter.
+        """
+        self.__counter[tag_name.lower()] += 1
+
+    def decrease_counter(self, tag_name: str) -> None:
+        """
+        Decreases the counter of the given tag.
+
+        Args:
+        ---
+            tag_name (str): The name of the tag to decrease the counter.
+        """
+        self.__counter[tag_name.lower()] = max(0, self.__counter[tag_name.lower()] - 1)
+
+    def get_count(self, tag_name: str) -> int:
+        """
+        Gets the counter of the given tag.
+
+        Args:
+        ---
+            tag_name (str): The name of the tag to get the counter.
+
+        Returns:
+        ---
+            int: The counter of the given tag.
+        """
+        return self.__counter[tag_name.lower()]

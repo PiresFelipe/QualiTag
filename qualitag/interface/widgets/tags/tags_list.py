@@ -23,7 +23,7 @@ class TagsList(CTkScrollableFrame, Observer):
         for _ in range(len(self.__views_list)):
             tag_view = self.__views_list.pop()
             tag_view.destroy()
-            
+
         for tag in self.__manager.get_all_tags(sort=True):
             view = TagView(self, tag=tag, events_manager=self.__events)
             view.pack(padx=5, pady=5)
@@ -32,6 +32,3 @@ class TagsList(CTkScrollableFrame, Observer):
     def on_event(self, event):
         if event.event_type == "created":
             self.update_tags()
-
-            
-    

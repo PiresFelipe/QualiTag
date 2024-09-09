@@ -1,9 +1,12 @@
 from typing import Optional
 import customtkinter as ctk
 from tkinter import TclError, Event
+
 from qualitag.interface.utils import Observer
 from qualitag.interface.utils import TagEventsManager
 from qualitag.src import TagsManager, Answer
+from qualitag.utils import convert_lines_to_char_idx, covert_char_idx_to_lines
+from ..tags.tag_views import TagView
 
 
 class CodingBox(ctk.CTkTextbox, Observer):
@@ -23,7 +26,7 @@ class CodingBox(ctk.CTkTextbox, Observer):
         super().__init__(master, **kwargs)
 
         self.__answer = answer
-
+        self.__manager = tags_manager
         self.__debounce: Optional[str] = None
 
         # Subcribing to tags_manager events
@@ -32,25 +35,17 @@ class CodingBox(ctk.CTkTextbox, Observer):
         self.set_text(self.__answer.text)
 
     def __associate_tag(self, tag: str):
-        start = self.get_char_index("sel.first")
-        end = self.get_char_index("sel.last")
+        start = convert_lines_to_char_idx(self, "sel.first")
+        end = convert_lines_to_char_idx(self, "sel.last")
         self.__answer.associate_tag(tag, start, end)
+        self.__manager.increase_counter(tag)
 
     def __dissociate_tag(self, tag: str, _start: str, _end: str):
-        start = self.get_char_index(_start)
-        end = self.get_char_index(_end)
+        start = convert_lines_to_char_idx(self, _start)
+        end = convert_lines_to_char_idx(self, _end)
         self.__answer.dissociate_tag(tag, start, end)
         self.tag_remove(tag, _start, _end)
-
-    def get_char_index(self, index: str) -> int:
-        line, char = map(int, self.index(index).split("."))
-        char_index = 0
-        for i in range(line - 1):
-            char_index += (
-                len(self.get(f"{i + 1}.0", f"{i + 1}.end")) + 1
-            )  # +1 for line break
-        char_index += char
-        return char_index
+        self.__manager.decrease_counter(tag)
 
     def set_text(self, text: str):
         """
@@ -64,6 +59,22 @@ class CodingBox(ctk.CTkTextbox, Observer):
         self.delete("1.0", "end")
         self.insert("1.0", text)
         self.configure(state="disabled")
+
+    def set_codes(self):
+        codes = self.__answer.get_all_tags()
+        text = self.__answer.text
+
+        for code, indices in codes.items():
+            tag = self.__manager.get_tag()
+            tag = TagView(tag=tag, events_manager=self.__manager)
+            start = covert_char_idx_to_lines(text, indices[0])
+            end = covert_char_idx_to_lines(text, indices[1])
+            self.tag_add(code, start, end)
+            self.tag_config(
+                code,
+                background=tag.background,
+                foreground=tag.foreground,
+            )
 
     def get_selection(self, as_index=False) -> tuple[str, str] | str | None:
         """
@@ -101,11 +112,14 @@ class CodingBox(ctk.CTkTextbox, Observer):
             if tag == "sel":
                 continue
             codes[tag] = self.tag_ranges(tag)
-        print(codes)
         return codes
 
     def on_event(self, event):
-        if self.winfo_exists() and self.winfo_ismapped() and event.event_type == "clicked":
+        if (
+            self.winfo_exists()
+            and self.winfo_ismapped()
+            and event.event_type == "clicked"
+        ):
             selection = self.get_selection(as_index=True)
             if selection is not None:
                 self.tag_add(event.tag.full_name, *selection)
