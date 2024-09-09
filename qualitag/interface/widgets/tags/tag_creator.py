@@ -11,18 +11,11 @@ class TagCreator(ctk.CTkToplevel):
         super().__init__(*args, **kwargs)
 
         self.name = StringVar()
-        self.description = StringVar()
         self.color = StringVar()
         self.color.set("#ffffff")
 
         self.__tag_manager = manager
         self.__events = events
-
-        self.__tag = {
-            "name": self.name,
-            "color": self.color,
-            "desc": self.description,
-        }
 
         # Set window configuration
         self.title("Create a new Tag")
@@ -46,7 +39,13 @@ class TagCreator(ctk.CTkToplevel):
     def __build(self):
 
         # Tag previewer
-        self.__viewer = TagPreview(self, tag=self.__tag)
+        self.__viewer = TagPreview(
+            self,
+            tag={
+                "name": self.name,
+                "color": self.color,
+            },
+        )
         self.__viewer.grid(row=0, column=0, columnspan=5, pady=10, ipady=5)
 
         # Name input
@@ -92,9 +91,10 @@ class TagCreator(ctk.CTkToplevel):
 
     def __create_tag(self):
         try:
-            tag = self.__tag_manager.create_tag(
-                self.name.get(), self.color.get(), self.description.get()
-            )
+            desc = self.__description_input.get("1.0", "end")
+            if len(desc) <= 1:
+                desc = None
+            tag = self.__tag_manager.create_tag(self.name.get(), self.color.get(), desc)
             self.__events.generate_event("created", tag)
             self.destroy()
         except ValueError as exc:
