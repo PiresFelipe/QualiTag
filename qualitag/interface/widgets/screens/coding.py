@@ -76,7 +76,10 @@ class CodingScreen(ctk.CTkFrame):
         self.__current_answer.pack(fill="both", expand=True, pady=10, padx=10)
 
         TagsList(
-            self.__lateral_container, manager=self.__manager, events=self.__events, height=440
+            self.__lateral_container,
+            manager=self.__manager,
+            events=self.__events,
+            height=440,
         ).pack(fill="both", expand=True, pady=10, padx=10)
 
         ctk.CTkButton(
@@ -84,15 +87,14 @@ class CodingScreen(ctk.CTkFrame):
             text="Criar Tag",
             command=self.master.open_tag_creator,
         ).pack(fill="x", padx=10, pady=10)
-        
+
         ctk.CTkButton(
             self.__lateral_container,
             text="Exportar codificação >",
             fg_color="#E34234",
             hover_color="#BD271A",
             command=self.__export_coding,
-            
-        ).pack(fill="x", padx=10, pady=[0,10])
+        ).pack(fill="x", padx=10, pady=[0, 10])
 
     def __selected_answer(self, value):
         index = self.__values.index(value)
@@ -103,23 +105,22 @@ class CodingScreen(ctk.CTkFrame):
             new.pack(fill="both", expand=True, pady=10, padx=10)
             self.__current_answer = new
 
-
     def __export_coding(self):
-        
+
         file = filedialog.asksaveasfilename(
             title="Exportar codificação",
             initialdir=os.getcwd(),
             filetypes=[("Excel files", "*.xlsx")],
             defaultextension=".xlsx",
         )
-        
+
         data = {
             "question": [],
             "answer": [],
             "codes": [],
             "text": [],
         }
-        
+
         for i, answer in enumerate(self.__question.answers):
             tags = answer.get_all_tags(as_text=True)
             for tag in tags:
@@ -127,7 +128,5 @@ class CodingScreen(ctk.CTkFrame):
                 data["answer"].extend([i] * len(tags[tag]))
                 data["codes"].extend([tag] * len(tags[tag]))
                 data["text"].extend(tags[tag])
-        
+
         export(data, file)
-        
-        
