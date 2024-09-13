@@ -1,25 +1,28 @@
 import customtkinter as ctk
-from tkinter import filedialog, StringVar
+from tkinter import filedialog, StringVar, messagebox
 import os
+from qualitag.src import CodingProject
 
 
 class QuestionCreator(ctk.CTkToplevel):
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, project: CodingProject, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.title("Create a new Question")
 
         self.__folder = StringVar()
+        self.__text = StringVar()
         self.__folder.trace_add(mode="write", callback=self.check_folder)
+        self.__project = project
 
         ctk.CTkLabel(self, text="Qual foi a pergunta realizada?").pack(fill="x")
-        ctk.CTkEntry(self).pack(fill="x", padx=10)
+        ctk.CTkEntry(self, textvariable=self.__text).pack(fill="x", padx=10)
 
         ctk.CTkLabel(self, text="Selecione a pasta com as respostas").pack(fill="x")
         ctk.CTkLabel(
             self,
-            text="* lembre-se que as repostas devem estar em formato PDF e em arquivos separados",
+            text="* lembre-se que as repostas devem estar em formato PDF ou txt e em arquivos separados",
         ).pack(fill="x")
 
         line = ctk.CTkFrame(self)
@@ -41,13 +44,13 @@ class QuestionCreator(ctk.CTkToplevel):
         self.__error_label = ctk.CTkLabel(self, text="", text_color="red")
         self.__error_label.pack(fill="x", pady=10)
 
-        self.__btn = ctk.CTkButton(self, text="Criar", state="disabled")
+        self.__btn = ctk.CTkButton(self, text="Criar", state="disabled", command=self.on_create)
         self.__btn.pack(pady=10)
 
     def check_folder(self, *args):
         if not self.valid_folder():
             self.__error_label.configure(
-                text="A pasta selecionada não contém arquivos PDF"
+                text="A pasta selecionada não contém arquivos PDF ou txt"
             )
             self.__btn.configure(state="disabled")
         else:
@@ -57,6 +60,17 @@ class QuestionCreator(ctk.CTkToplevel):
     def valid_folder(self) -> bool:
 
         for file in os.listdir(self.__folder.get()):
-            if file.endswith(".pdf"):
+            if file.endswith((".pdf", ".txt")):
                 return True
         return False
+
+    def on_create(self):
+        try:
+            self.__project.add_question(
+                self.__text.get(),
+                self.__folder.get(),
+            )
+            self.event_generate("<<QuestionCreated>>")
+            self.destroy()
+        except Exception as e:
+            messagebox.showerror("Error", str(e))

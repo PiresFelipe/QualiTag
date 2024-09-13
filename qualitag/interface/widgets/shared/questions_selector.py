@@ -21,7 +21,7 @@ class QuestionsSelector(ctk.CTkOptionMenu):
 
     def __select(self, value: str):
         _, num = value.split(" ")
-        self.__selected.set(int(num))
+        self.__selected.set(int(num)-1)
 
     def select(self, question_idx: int):
         _value = f"Questão {question_idx:03d}"
