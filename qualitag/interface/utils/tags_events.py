@@ -33,7 +33,7 @@ class TagEventsManager:
             observer.on_event(event)
 
     def generate_event(
-        self, event_type: Literal["created", "clicked"], tag: Union["TagView", Tag]
+        self, event_type: Literal["created", "clicked", "deleted"], tag: Union["TagView", Tag, str]
     ):
         """
         Generate an event for the given tag.

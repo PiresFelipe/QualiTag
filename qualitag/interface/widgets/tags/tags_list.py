@@ -30,5 +30,5 @@ class TagsList(CTkScrollableFrame, Observer):
             self.__views_list.append(view)
 
     def on_event(self, event):
-        if event.event_type == "created":
+        if event.event_type in ("created", "deleted"):
             self.update_tags()
