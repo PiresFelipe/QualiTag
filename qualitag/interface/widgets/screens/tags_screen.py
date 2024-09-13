@@ -23,7 +23,7 @@ class TagsScreen(ctk.CTkFrame):
             font=subtitle,
         ).pack(pady=10, padx=30, fill="x")
 
-        tags_counter = TagDescriptor(self, tags_manager=tags_manager)
+        tags_counter = TagDescriptor(self, tags_manager=tags_manager, events_manager=event_manager)
         tags_counter.pack(pady=10)
         event_manager.attach(tags_counter)
         

@@ -109,9 +109,13 @@ class App(ctk.CTk):
             self.__tag_creator.focus()
 
     def open_add_question(self):
-        if self.__question_creator is None or not self.__question_creator.winfo_exists():
-            self.__question_creator = qtg.QuestionCreator(
-                self
+        if (
+            self.__question_creator is None
+            or not self.__question_creator.winfo_exists()
+        ):
+            self.__question_creator = qtg.QuestionCreator(self, project=self.__project)
+            self.__question_creator.bind(
+                "<<QuestionCreated>>", self.__projects_screen.on_question_created
             )
             self.__question_creator.grab_set()
         else:
@@ -131,6 +135,7 @@ class App(ctk.CTk):
             parent,
             project=self.__project,
             new_question_fn=self.open_add_question,
+            events=self.__events_manager,
         )
         self.__projects_screen.pack(fill="both", expand=True)
 
@@ -142,7 +147,6 @@ class App(ctk.CTk):
             event_manager=self.__events_manager,
         )
         tags_screen.pack(fill="both", expand=True)
-
 
 
 if __name__ == "__main__":

@@ -115,7 +115,10 @@ class CodingBox(ctk.CTkTextbox, Observer):
         return codes
 
     def on_event(self, event):
-        if (
+        if event.event_type == "deleted":
+            if isinstance(event.tag, str):
+                self.tag_delete(event.tag)
+        elif (
             self.winfo_exists()
             and self.winfo_ismapped()
             and event.event_type == "clicked"

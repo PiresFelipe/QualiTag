@@ -1,5 +1,6 @@
 from typing import Optional
 import customtkinter as ctk
+from tkinter import messagebox
 
 from qualitag.interface.utils.event_observer import Event
 from ...utils.event_observer import Observer
@@ -9,10 +10,11 @@ from ....src import TagsManager
 
 class TagDescriptor(ctk.CTkFrame, Observer):
 
-    def __init__(self, *args, tags_manager: TagsManager, **kwargs):
+    def __init__(self, *args, tags_manager: TagsManager, events_manager, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.__manager = tags_manager
+        self.__events_manager = events_manager
         self.__tags: list = []
         self.__selected_tag: Optional[Tag] = None
 
@@ -43,9 +45,10 @@ class TagDescriptor(ctk.CTkFrame, Observer):
         return self.__selected_tag
 
     def update_tags(self):
-        for tag in self.__tags:
-            tag.destroy()
-        
+        for _ in range(len(self.__tags)):
+            _tag = self.__tags.pop()
+            _tag.destroy()
+
         for tag in self.__manager.get_all_tags(sort=True):
             self.add_tag(tag)
 
@@ -73,13 +76,16 @@ class TagDescriptor(ctk.CTkFrame, Observer):
         self.__tags.append(view)
 
     def delete_tag(self, tag_name: str):
-        print("delete ", tag_name)
+        if messagebox.askyesno(
+            "Deletar tag", f"Você tem certeza que deseja deletar a tag '{tag_name}'?"
+        ):
+            self.after(100, lambda: self.__events_manager.generate_event("deleted", tag_name))
+            self.__manager.delete_tag(tag_name)
+            self.update_tags()
 
     def on_event(self, event: Event):
         if event.event_type == "created":
-            print(event.tag)
             self.update_tags()
-            
 
     def change_description(self, tag: Tag):
         title = tag.name if len(tag.name) < 15 else tag.name[:12] + "..."
