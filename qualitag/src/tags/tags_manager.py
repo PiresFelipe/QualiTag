@@ -13,6 +13,10 @@ class TagsManager:
         self.__tags: dict[str, Tag] = {}
         self.__counter: defaultdict[str, int] = defaultdict(int)
 
+    @property
+    def counter(self) -> dict[str, int]:
+        return self.__counter
+
     def create_tag(
         self, name: str, color: str, description: Optional[str] = None
     ) -> Tag:

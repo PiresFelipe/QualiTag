@@ -27,7 +27,7 @@ class App(ctk.CTk):
         self.__code_screen = None
         self.__tags_screen = None
         self.__projects_screen = None
-        self.__dashboard = None
+        self.__dashboard_screen = None
 
         self.start_screen()
 
@@ -84,6 +84,7 @@ class App(ctk.CTk):
             self.__tabview.add("Tags")
             self.open_tags_screen(self.__tabview.tab("Tags"))
             self.__tabview.add("Dashboard")
+            self.open_dashboard_screen(self.__tabview.tab("Dashboard"))
             self.__tabview.pack(fill="both", expand=True)
         return self.__tabview
 
@@ -140,14 +141,19 @@ class App(ctk.CTk):
         self.__projects_screen.pack(fill="both", expand=True)
 
     def open_tags_screen(self, parent):
-        tags_screen = qtg.TagsScreen(
+        self.__tags_screen = qtg.TagsScreen(
             parent,
             tags_manager=self.__tag_manager,
             create_fn=self.open_tag_creator,
             event_manager=self.__events_manager,
         )
-        tags_screen.pack(fill="both", expand=True)
+        self.__tags_screen.pack(fill="both", expand=True)
 
+    def open_dashboard_screen(self, parent):
+        self.__dashboard_screen = qtg.DashboardScreen(
+            parent, project=self.__project
+        )
+        self.__dashboard_screen.pack(fill="both", expand=True)
 
 if __name__ == "__main__":
     app = App()

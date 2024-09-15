@@ -57,3 +57,7 @@ class CodingProject:
             raise ValueError(f"Insufficient values for tag '{tag}'")
 
         return self.__chart_generator.wordcloud(text, **kwargs).to_image()
+
+    def generate_most_common_tags_chart(self, **kwargs) -> Image.Image:
+        tags_count = self.__tags_manager.counter
+        return self.__chart_generator.most_common_tags(tags_count, **kwargs)
