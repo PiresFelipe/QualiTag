@@ -3,6 +3,8 @@ import pickle
 from qualitag.src.questions import Question
 from qualitag.src.tags import TagsManager
 from qualitag.src.importer import import_data
+from qualitag.src.reports import ChartReport
+from PIL import Image
 
 
 class CodingProject:
@@ -11,6 +13,7 @@ class CodingProject:
 
         self.__questions: list[Question] = []
         self.__tags_manager = TagsManager()
+        self.__chart_generator = ChartReport()
 
     @property
     def questions(self) -> list[Question]:
@@ -41,3 +44,16 @@ class CodingProject:
                 continue
 
         self.__questions.append(question)
+
+    def generate_wordcloud(self, tag: str, **kwargs) -> Image.Image:
+        text = ""
+
+        for question in self.__questions:
+            for answer in question.answers:
+                text += " ".join(answer.get_tag_text(tag))
+            text += " "
+
+        if len(text) < 5:
+            raise ValueError(f"Insufficient values for tag '{tag}'")
+
+        return self.__chart_generator.wordcloud(text, **kwargs).to_image()

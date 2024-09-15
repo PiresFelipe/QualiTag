@@ -28,3 +28,6 @@ class Answer:
             tags[tag] = [self.text[start:end] for start, end in self.__tags[tag]]
 
         return tags
+
+    def get_tag_text(self, tag: str) -> list[str]:
+        return [self.text[start:end] for start, end in self.__tags[tag]]
