@@ -1,10 +1,12 @@
 from typing import TypedDict
 from tkinter import StringVar
 
-from customtkinter import CTkButton
+from customtkinter import CTkButton, CTkFont
 from colour import Color
 from qualitag.interface.utils.tags_events import TagEventsManager
 from qualitag.src import Tag
+
+from ...utils import fonts
 
 
 class TagPrototype(TypedDict):
@@ -38,6 +40,7 @@ class TagView(CTkButton):
             hover_color=self.hover_color,
             cursor="hand2",
             command=self.__on_click,
+            font=CTkFont(**fonts["small"])
         )
 
     def __on_click(self):
@@ -90,6 +93,7 @@ class TagPreview(CTkButton):
             text=self.name,
             hover_color=self.hover_color,
             cursor="hand2",
+            font=CTkFont(**fonts["small"]),
         )
 
         self.__name.trace_add("write", self.__update_view)

@@ -11,8 +11,14 @@ class Answer:
         self.text = text
         self.__tags: TagsAssociation = defaultdict(set)
 
-    def associate_tag(self, tag: str, start: int, end: int) -> None:
+    @property
+    def tags(self) -> TagsAssociation:
+        return self.__tags
+
+    def associate_tag(self, tag: str, start: int, end: int) -> bool:
+        _len = len(self.__tags[tag])
         self.__tags[tag].add((start, end))
+        return len(self.__tags[tag]) != _len
 
     def dissociate_tag(self, tag: str, start: int, end: int) -> None:
         self.__tags[tag].remove((start, end))

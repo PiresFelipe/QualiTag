@@ -4,7 +4,7 @@ from qualitag.src.exporter.exporter_base import ExporterBase
 from .json_exporter import JSONExporter
 from .xlsx_exporter import ExcelExporter
 
-def export(data, filepath: str):
+def export(project, filepath: str):
     _, ext = splitext(filepath)
 
     if ext == ".json":
@@ -14,7 +14,7 @@ def export(data, filepath: str):
     else:
         raise ValueError("Invalid file extension")
 
-    exporter.export(data)
+    exporter.export(project)
 
 
 __all__ = ["export", "JSONExporter"]

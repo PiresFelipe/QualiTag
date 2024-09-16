@@ -6,6 +6,7 @@ from qualitag.interface.utils.event_observer import Event
 from ...utils.event_observer import Observer
 from ....src import Tag
 from ....src import TagsManager
+from ...utils import fonts
 
 
 class TagDescriptor(ctk.CTkFrame, Observer):
@@ -19,24 +20,36 @@ class TagDescriptor(ctk.CTkFrame, Observer):
         self.__selected_tag: Optional[Tag] = None
 
         self.__list = ctk.CTkScrollableFrame(self)
-        self.__list.pack(fill="both", expand=True, side="left")
+        self.__list.pack(fill="both", expand=True, side="left", padx=10)
+
+        # Layout
+        self.__del_col = ctk.CTkFrame(self.__list)
+        self.__del_col.grid(column=0, row=0, sticky="nsew")
+        self.__name_col = ctk.CTkFrame(self.__list)
+        self.__name_col.grid(column=1, row=0, sticky="nsew")
+        self.__count_col = ctk.CTkFrame(self.__list)
+        self.__count_col.grid(column=2, row=0, sticky="nsew")
+
+        self.__list.grid_columnconfigure(0, weight=1)
+        self.__list.grid_columnconfigure(1, weight=4)
+        self.__list.grid_columnconfigure(2, weight=1)
 
         self.__description = ctk.CTkFrame(self)
-        self.__description.pack(fill="both", expand=True, side="right")
+        self.__description.pack(fill="both", expand=True, side="right", padx=10)
 
         self.__desc_title = ctk.CTkLabel(
             self.__description,
-            text="Select a tag",
+            text="Selecione uma tag",
             justify="left",
             anchor="w",
             font=ctk.CTkFont(weight="bold", size=24),
         )
-        self.__desc_title.pack(fill="x")
+        self.__desc_title.pack(fill="x", padx=10)
 
         self.__desc_text = ctk.CTkTextbox(
-            self.__description, fg_color=self.cget("bg_color")[0]
+            self.__description, fg_color=self.cget("bg_color")[0], state="disabled"
         )
-        self.__desc_text.pack(fill="both", expand=True)
+        self.__desc_text.pack(fill="both", expand=True, padx=10)
 
         self.update_tags()
 
@@ -47,39 +60,47 @@ class TagDescriptor(ctk.CTkFrame, Observer):
     def update_tags(self):
         for _ in range(len(self.__tags)):
             _tag = self.__tags.pop()
-            _tag.destroy()
+            for widget in _tag:
+                widget.destroy()
 
         for tag in self.__manager.get_all_tags(sort=True):
             self.add_tag(tag)
 
     def add_tag(self, tag: Tag):
-        view = ctk.CTkFrame(self.__list)
-
-        _btn = ctk.CTkButton(view, text="X", command=lambda: self.delete_tag(tag.name))
-        _btn.grid(column=0, row=0)
+        font = ctk.CTkFont(**fonts["h3"])
+        _del_btn = ctk.CTkButton(
+            self.__del_col,
+            text="X",
+            command=lambda: self.delete_tag(tag.name),
+            font=font,
+            width=font.measure("X") + 10,
+        )
+        _del_btn.pack(pady=[0, 10])
 
         _text = ctk.CTkLabel(
-            view, text=tag.name, text_color=tag.color, font=ctk.CTkFont(weight="bold")
+            self.__name_col,
+            text=tag.name,
+            text_color=tag.color,
+            font=font,
         )
-        _text.grid(column=1, row=0)
+        _text.pack(pady=[0, 10], fill="x", expand=True)
         _text.bind("<Button-1>", lambda _: self.change_description(tag))
 
-        _count = ctk.CTkLabel(view, text=str(self.__manager.get_count(tag.name)))
-        _count.grid(column=2, row=0)
+        _count = ctk.CTkLabel(
+            self.__count_col, text=str(self.__manager.get_count(tag.name)), font=font
+        )
+        _count.pack(pady=[0, 10], fill="x", expand=True)
         _count.bind("<Button-1>", lambda _: self.change_description(tag))
 
-        # On click on this line
-        view.bind("<Button-1>", lambda _: self.change_description(tag))
-        # view.bind("<Enter>", lambda _: view.configure(bg_color="#E0E0E0"))
-        # view.bind("<Leave>", lambda _: view.configure(bg_color="transparent"))
-        view.pack()
-        self.__tags.append(view)
+        self.__tags.append((_del_btn, _text, _count))
 
     def delete_tag(self, tag_name: str):
         if messagebox.askyesno(
             "Deletar tag", f"Você tem certeza que deseja deletar a tag '{tag_name}'?"
         ):
-            self.after(100, lambda: self.__events_manager.generate_event("deleted", tag_name))
+            self.after(
+                100, lambda: self.__events_manager.generate_event("deleted", tag_name)
+            )
             self.__manager.delete_tag(tag_name)
             self.update_tags()
 
@@ -97,5 +118,7 @@ class TagDescriptor(ctk.CTkFrame, Observer):
 
         self.__desc_title.configure(text=title, text_color=tag.color)
 
+        self.__desc_text.configure(state="normal")
         self.__desc_text.delete("1.0", "end")
         self.__desc_text.insert("1.0", description)
+        self.__desc_text.configure(state="disabled")

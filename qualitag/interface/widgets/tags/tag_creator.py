@@ -91,6 +91,9 @@ class TagCreator(ctk.CTkToplevel):
 
     def __create_tag(self):
         try:
+            if len(self.color.get()) != 7:
+                raise ValueError("Cor inválida, formato aceito: #RRGGBB")
+
             desc = self.__description_input.get("1.0", "end")
             if len(desc) <= 1:
                 desc = None
