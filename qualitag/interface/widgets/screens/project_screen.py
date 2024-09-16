@@ -1,6 +1,5 @@
-from turtle import width
 import customtkinter as ctk
-from pyparsing import col
+from tkinter import StringVar
 from ..shared import QuestionsSelector, AnswerSelector
 from ..tags import TagsList
 from ...utils import fonts
@@ -48,7 +47,8 @@ class ProjectScreen(ctk.CTkFrame):
         # Questions list
         _font = ctk.CTkFont(**fonts["h3"])
         self.__questions_list = QuestionsSelector(
-            self.__title_line, questions=project.questions,
+            self.__title_line,
+            questions=project.questions,
             font=_font,
             width=_font.measure("Questão 000") + 100,
         )
@@ -62,6 +62,16 @@ class ProjectScreen(ctk.CTkFrame):
             events=self.__events,
             height=440,
         ).pack(fill="both", expand=True, pady=10, padx=10)
+
+        # Question label
+        self.__text = StringVar()
+        ctk.CTkLabel(
+            self.__coding_content,
+            textvariable=self.__text,
+            font=ctk.CTkFont(**fonts["body"]),
+            text="",
+            wraplength=400,
+        ).pack(fill="x", anchor="w")
 
         # No question selected message
         self.__warning_label = ctk.CTkLabel(
@@ -96,5 +106,6 @@ class ProjectScreen(ctk.CTkFrame):
 
         idx = self.__questions_list.selected.get()
         question = self.__questions_frames[idx][1]
+        self.__text.set(self.__questions_frames[idx][0].question)
         question.pack(fill="both", expand=True)
         self.__current_question = question

@@ -17,8 +17,8 @@ class FileMenu(ctk.CTkFrame):
             font=_font,
             width=_font.measure("Salvar projeto"),
             fg_color="transparent",
-            hover_color="#DCDCDC",
-            text_color="black",
+            hover_color=("#DCDCDC", "#898989"),
+            text_color=("black", "white"),
         ).pack(side="left", padx=5, anchor="w")
 
         ctk.CTkButton(
@@ -28,8 +28,8 @@ class FileMenu(ctk.CTkFrame):
             font=_font,
             width=_font.measure("Salvar projeto"),
             fg_color="transparent",
-            hover_color="#DCDCDC",
-            text_color="black",
+            hover_color=("#DCDCDC", "#898989"),
+            text_color=("black", "white"),
         ).pack(side="left", padx=5, anchor="w")
 
     def save_project(self):

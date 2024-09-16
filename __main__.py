@@ -13,7 +13,7 @@ class App(ctk.CTk):
 
         # App settings
         self.title("QualiTag")
-        self.geometry("800x600")
+        self.geometry("800x670")
 
         # App layout
         self.__first_line = ctk.CTkFrame(self)

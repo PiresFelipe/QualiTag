@@ -31,7 +31,7 @@ class AnswerSelector(ctk.CTkFrame):
             self,
             text="Selecione a resposta que deseja codificar:",
             font=ctk.CTkFont(**fonts["h3"]),
-        ).pack(anchor="w")
+        ).pack(anchor="w", padx=10)
         ctk.CTkOptionMenu(
             self,
             values=self.__values,
