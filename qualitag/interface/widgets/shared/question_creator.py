@@ -2,6 +2,7 @@ import customtkinter as ctk
 from tkinter import filedialog, StringVar, messagebox
 import os
 from qualitag.src import CodingProject
+from ...utils import fonts
 
 
 class QuestionCreator(ctk.CTkToplevel):
@@ -16,13 +17,20 @@ class QuestionCreator(ctk.CTkToplevel):
         self.__folder.trace_add(mode="write", callback=self.check_folder)
         self.__project = project
 
-        ctk.CTkLabel(self, text="Qual foi a pergunta realizada?").pack(fill="x")
-        ctk.CTkEntry(self, textvariable=self.__text).pack(fill="x", padx=10)
+        ctk.CTkLabel(
+            self, text="Qual foi a pergunta realizada?", font=ctk.CTkFont(**fonts["h2"])
+        ).pack(fill="x", anchor="w", padx=10)
+        ctk.CTkEntry(
+            self, textvariable=self.__text, font=ctk.CTkFont(**fonts["body"])
+        ).pack(fill="x", padx=10)
 
-        ctk.CTkLabel(self, text="Selecione a pasta com as respostas").pack(fill="x")
+        ctk.CTkLabel(self, text="Selecione a pasta com as respostas").pack(
+            fill="x", anchor="w", padx=10
+        )
         ctk.CTkLabel(
             self,
             text="* lembre-se que as repostas devem estar em formato PDF ou txt e em arquivos separados",
+            font=ctk.CTkFont(**fonts["small"]),
         ).pack(fill="x")
 
         line = ctk.CTkFrame(self)
@@ -41,10 +49,12 @@ class QuestionCreator(ctk.CTkToplevel):
             border_width=0,
         ).pack(fill="x", padx=10)
 
-        self.__error_label = ctk.CTkLabel(self, text="", text_color="red")
+        self.__error_label = ctk.CTkLabel(self, text="", text_color="red", font=ctk.CTkFont(**fonts["h3"]))
         self.__error_label.pack(fill="x", pady=10)
 
-        self.__btn = ctk.CTkButton(self, text="Criar", state="disabled", command=self.on_create)
+        self.__btn = ctk.CTkButton(
+            self, text="Criar", state="disabled", command=self.on_create
+        )
         self.__btn.pack(pady=10)
 
     def check_folder(self, *args):

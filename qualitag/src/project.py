@@ -3,6 +3,7 @@ import pickle
 from qualitag.src.questions import Question
 from qualitag.src.tags import TagsManager
 from qualitag.src.importer import import_data
+from qualitag.src.exporter import export
 from qualitag.src.reports import ChartReport
 from PIL import Image
 
@@ -61,3 +62,6 @@ class CodingProject:
     def generate_most_common_tags_chart(self, **kwargs) -> Image.Image:
         tags_count = self.__tags_manager.counter
         return self.__chart_generator.most_common_tags(tags_count, **kwargs)
+
+    def export_data(self, filename: str) -> None:
+        export(self, filename)

@@ -30,15 +30,18 @@ class CodingBox(ctk.CTkTextbox, Observer):
         self.__debounce: Optional[str] = None
 
         # Subcribing to tags_manager events
+        self.__events_mng = events
         events.attach(self)
 
         self.set_text(self.__answer.text)
+        self.set_codes()
 
     def __associate_tag(self, tag: str):
         start = convert_lines_to_char_idx(self, "sel.first")
         end = convert_lines_to_char_idx(self, "sel.last")
-        self.__answer.associate_tag(tag, start, end)
-        self.__manager.increase_counter(tag)
+        _added = self.__answer.associate_tag(tag, start, end)
+        if _added:
+            self.__manager.increase_counter(tag)
 
     def __dissociate_tag(self, tag: str, _start: str, _end: str):
         start = convert_lines_to_char_idx(self, _start)
@@ -63,18 +66,14 @@ class CodingBox(ctk.CTkTextbox, Observer):
     def set_codes(self):
         codes = self.__answer.get_all_tags()
         text = self.__answer.text
-
         for code, indices in codes.items():
-            tag = self.__manager.get_tag()
-            tag = TagView(tag=tag, events_manager=self.__manager)
-            start = covert_char_idx_to_lines(text, indices[0])
-            end = covert_char_idx_to_lines(text, indices[1])
-            self.tag_add(code, start, end)
-            self.tag_config(
-                code,
-                background=tag.background,
-                foreground=tag.foreground,
-            )
+            tag = self.__manager.get_tag(code)
+            tag = TagView(self, tag=tag, events_manager=self.__manager)
+            for start, end in indices:
+                _start = covert_char_idx_to_lines(text, start)
+                _end = covert_char_idx_to_lines(text, end)
+                self.tag_add("sel", _start, _end)
+                self.__events_mng.generate_event("clicked", tag)
 
     def get_selection(self, as_index=False) -> tuple[str, str] | str | None:
         """
@@ -120,7 +119,6 @@ class CodingBox(ctk.CTkTextbox, Observer):
                 self.tag_delete(event.tag)
         elif (
             self.winfo_exists()
-            and self.winfo_ismapped()
             and event.event_type == "clicked"
         ):
             selection = self.get_selection(as_index=True)
@@ -150,7 +148,6 @@ class CodingBox(ctk.CTkTextbox, Observer):
         tag_indices = self.tag_prevrange(tag_name, index)
         if len(tag_indices) == 0:
             tag_indices = self.tag_nextrange(tag_name, index)
-
         if self.__debounce is not None:
             self.after_cancel(self.__debounce)
 

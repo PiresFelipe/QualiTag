@@ -3,6 +3,7 @@ import customtkinter as ctk
 import qualitag as qtg
 from tkinter import filedialog, messagebox
 from qualitag.src import CodingProject
+from qualitag.interface.utils import fonts
 
 
 class App(ctk.CTk):
@@ -13,6 +14,10 @@ class App(ctk.CTk):
         # App settings
         self.title("QualiTag")
         self.geometry("800x600")
+
+        # App layout
+        self.__first_line = ctk.CTkFrame(self)
+        self.__main_content = ctk.CTkFrame(self)
 
         # App attributes
         self.__project: CodingProject = CodingProject()
@@ -32,20 +37,28 @@ class App(ctk.CTk):
         self.start_screen()
 
     def start_screen(self):
-        self.__init_screen = ctk.CTkFrame(self)
+        self.__init_screen = ctk.CTkFrame(self, fg_color="transparent")
 
         # Create label
+        _font = ctk.CTkFont(**fonts["h1"])
+        _font.configure(size=40)
         label = ctk.CTkLabel(
             self.__init_screen,
             text="Bem-vindo ao QualiTag!",
-            font=("Arial", 24),
+            font=_font,
             pady=20,
         )
+
         label.pack()
 
         # Create buttons
+        _font = ctk.CTkFont(**fonts["h2"])
         new_project_button = ctk.CTkButton(
-            self.__init_screen, text="Começar um novo projeto", command=self.new_project
+            self.__init_screen,
+            text="Começar um novo projeto",
+            command=self.new_project,
+            font=_font,
+            width=_font.measure("Começar um novo projeto") + 30,
         )
         new_project_button.pack(pady=10)
 
@@ -53,10 +66,12 @@ class App(ctk.CTk):
             self.__init_screen,
             text="Abrir um projeto existente",
             command=self.load_project,
+            font=_font,
+            width=_font.measure("Abrir um projeto existente") + 30,
         )
         open_project_button.pack(pady=10)
 
-        self.__init_screen.pack(fill="both", expand=True)
+        self.__init_screen.place(relx=0.5, rely=0.5, anchor="center")
 
     def load_project(self):
 
@@ -78,27 +93,29 @@ class App(ctk.CTk):
 
     def get_tabview(self) -> ctk.CTkTabview:
         if self.__tabview is None or not self.__tabview.winfo_exists():
-            self.__tabview = ctk.CTkTabview(self)
+            self.__tabview = ctk.CTkTabview(
+                self.__main_content, command=self.on_tab_change
+            )
             self.__tabview.add("Projeto")
             self.open_project_screen(self.__tabview.tab("Projeto"))
             self.__tabview.add("Tags")
             self.open_tags_screen(self.__tabview.tab("Tags"))
-            self.__tabview.add("Dashboard")
-            self.open_dashboard_screen(self.__tabview.tab("Dashboard"))
+            # self.__tabview.add("Dashboard")
+            # self.open_dashboard_screen(self.__tabview.tab("Dashboard"))
+
+            qtg.FileMenu(self.__first_line, project=self.__project).pack(
+                fill="x", expand=True
+            )
+
+            self.__first_line.pack(fill="x", expand=True)
+            self.__main_content.pack(fill="both", expand=True)
             self.__tabview.pack(fill="both", expand=True)
         return self.__tabview
 
-    def save_project(self):
-
-        _file = filedialog.asksaveasfilename(
-            filetypes=[("QualiTag project", "*.pkl")], confirmoverwrite=True
-        )
-
-        try:
-            self.__project.save(_file)
-        except Exception as e:
-            messagebox.showerror("Error", str(e))
-            return
+    def on_tab_change(self):
+        tab = self.__tabview.get()
+        if tab == "Tags":
+            self.__tags_screen.tags_counter.update_tags()
 
     def open_tag_creator(self):
         if self.__tag_creator is None or not self.__tag_creator.winfo_exists():
@@ -150,10 +167,9 @@ class App(ctk.CTk):
         self.__tags_screen.pack(fill="both", expand=True)
 
     def open_dashboard_screen(self, parent):
-        self.__dashboard_screen = qtg.DashboardScreen(
-            parent, project=self.__project
-        )
+        self.__dashboard_screen = qtg.DashboardScreen(parent, project=self.__project)
         self.__dashboard_screen.pack(fill="both", expand=True)
+
 
 if __name__ == "__main__":
     app = App()

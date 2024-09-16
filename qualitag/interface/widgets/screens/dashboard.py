@@ -10,9 +10,9 @@ class DashboardScreen(ctk.CTkFrame):
 
         ImageDisplay(
             self,
+            title="Tags mais frequentes",
             image=project.generate_most_common_tags_chart(),
-            title="Tags mais comuns",
-        ).pack(fill="both", expand=True)
+        ).pack()
 
     def __change_tag_view(self, tag: str):
         pass

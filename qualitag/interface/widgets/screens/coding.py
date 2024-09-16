@@ -109,7 +109,6 @@ class CodingScreen(ctk.CTkFrame):
 
         file = filedialog.asksaveasfilename(
             title="Exportar codificação",
-            initialdir=os.getcwd(),
             filetypes=[("Excel files", "*.xlsx")],
             defaultextension=".xlsx",
         )

@@ -1,8 +1,8 @@
-from textwrap import fill
 import customtkinter as ctk
 
 from qualitag.src import Question
 from .coding_box import CodingBox
+from ...utils import fonts
 
 
 class AnswerSelector(ctk.CTkFrame):
@@ -30,13 +30,13 @@ class AnswerSelector(ctk.CTkFrame):
         ctk.CTkLabel(
             self,
             text="Selecione a resposta que deseja codificar:",
-            font=("Roboto", 16),
-        ).pack(pady=5, padx=10, fill="both", expand=True, side="left")
+            font=ctk.CTkFont(**fonts["h3"]),
+        ).pack(anchor="w")
         ctk.CTkOptionMenu(
             self,
             values=self.__values,
             command=self.on_change_sel,
-        ).pack(pady=10, padx=10, side="left")
+        ).pack(anchor="w", padx=10)
 
         if len(self.__codes_boxes) > 0:
             self.on_change_sel(self.__values[0])
