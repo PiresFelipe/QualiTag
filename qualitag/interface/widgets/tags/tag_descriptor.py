@@ -5,17 +5,18 @@ import customtkinter as ctk
 
 from qualitag.interface.utils.event_observer import Event
 
-from ....src import Tag, TagsManager
+from ....src import Tag, CodingProject
 from ...utils import fonts
 from ...utils.event_observer import Observer
 
 
 class TagDescriptor(ctk.CTkFrame, Observer):
 
-    def __init__(self, *args, tags_manager: TagsManager, events_manager, **kwargs):
+    def __init__(self, *args, project: CodingProject, events_manager, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.__manager = tags_manager
+        self.__project = project
+        self.__manager = project.tags_manager
         self.__events_manager = events_manager
         self.__tags: list = []
         self.__selected_tag: Optional[Tag] = None
@@ -102,7 +103,7 @@ class TagDescriptor(ctk.CTkFrame, Observer):
             self.after(
                 100, lambda: self.__events_manager.generate_event("deleted", tag_name)
             )
-            self.__manager.delete_tag(tag_name)
+            self.__project.delete_tag(tag_name)
             self.update_tags()
 
     def on_event(self, event: Event):

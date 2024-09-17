@@ -109,7 +109,7 @@ class App(ctk.CTk):
                 fill="x", expand=True
             )
 
-            self.__first_line.pack(fill="x", expand=True)
+            self.__first_line.pack(fill="x", expand=False)
             self.__main_content.pack(fill="both", expand=True)
             self.__tabview.pack(fill="both", expand=True)
         return self.__tabview
@@ -162,7 +162,7 @@ class App(ctk.CTk):
     def open_tags_screen(self, parent):
         self.__tags_screen = qtg.TagsScreen(
             parent,
-            tags_manager=self.__tag_manager,
+            project=self.__project,
             create_fn=self.open_tag_creator,
             event_manager=self.__events_manager,
         )

@@ -2,7 +2,7 @@ from typing import Callable
 
 import customtkinter as ctk
 
-from qualitag.src import TagsManager
+from qualitag.src import CodingProject
 
 from ...utils import fonts
 from ...utils.tags_events import TagEventsManager
@@ -14,7 +14,7 @@ class TagsScreen(ctk.CTkFrame):
     def __init__(
         self,
         *args,
-        tags_manager: TagsManager,
+        project: CodingProject,
         create_fn: Callable,
         event_manager: TagEventsManager,
         **kwargs
@@ -36,7 +36,7 @@ class TagsScreen(ctk.CTkFrame):
 
         self.tags_counter = TagDescriptor(
             self,
-            tags_manager=tags_manager,
+            project=project,
             events_manager=event_manager,
             fg_color="transparent",
         )

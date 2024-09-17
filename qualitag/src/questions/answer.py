@@ -15,6 +15,12 @@ class Answer:
     def tags(self) -> TagsAssociation:
         return self.__tags
 
+    def delete_tag(self, tag: str) -> None:
+        try:
+            del self.__tags[tag]
+        except KeyError:
+            pass
+
     def associate_tag(self, tag: str, start: int, end: int) -> bool:
         _len = len(self.__tags[tag])
         self.__tags[tag].add((start, end))

@@ -61,14 +61,14 @@ class CodingProject:
 
         if len(text) < 5:
             raise ValueError(f"Insufficient values for tag '{tag}'")
-        
+
         if as_buffer:
             img = self.__chart_generator.wordcloud(text, **kwargs).to_image()
             buffer = BytesIO()
             img.save(buffer, format="PNG")
             buffer.seek(0)
             return buffer
-    
+
         return self.__chart_generator.wordcloud(text, **kwargs).to_image()
 
     def generate_most_common_tags_chart(self, **kwargs) -> Image.Image:
@@ -77,3 +77,9 @@ class CodingProject:
 
     def export_data(self, filename: str) -> None:
         export(self, filename)
+
+    def delete_tag(self, tag: str) -> None:
+        self.__tags_manager.delete_tag(tag)
+        for question in self.__questions:
+            for answer in question.answers:
+                answer.delete_tag(tag)
