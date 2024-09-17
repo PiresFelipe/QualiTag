@@ -30,9 +30,14 @@ class ChartReport:
             background_color=kwargs.get("background_color", (255, 255, 255, 0)),
             mode=kwargs.get("mode", "RGBA"),
             colormap=kwargs.get("colormap", "Blues"),
+            width=kwargs.get("width", 400),
+            height=kwargs.get("height", 200),
+            color_func=kwargs.get("color_func", None),
         ).generate(text)
 
-    def most_common_tags(self, tags_count: dict[str, int], **kwargs):
+    def most_common_tags(
+        self, tags_count: dict[str, int], as_buffer: bool = False, **kwargs
+    ):
         # Sort the tags_count dictionary by values in descending order
         sorted_tags = sorted(tags_count.items(), key=lambda x: x[1], reverse=True)
 
@@ -55,6 +60,9 @@ class ChartReport:
         buffer = BytesIO()
         plt.savefig(buffer, format="png")
         buffer.seek(0)
+        plt.close('all')
+        if as_buffer:
+            return buffer
 
         # Create a PIL image from the buffer
         image = Image.open(buffer)

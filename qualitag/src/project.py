@@ -1,5 +1,6 @@
 import os
 import pickle
+from io import BytesIO
 from qualitag.src.questions import Question
 from qualitag.src.tags import TagsManager
 from qualitag.src.importer import import_data
@@ -46,7 +47,9 @@ class CodingProject:
 
         self.__questions.append(question)
 
-    def generate_wordcloud(self, tag: str, **kwargs) -> Image.Image:
+    def generate_wordcloud(
+        self, tag: str, as_buffer: bool = False, **kwargs
+    ) -> Image.Image:
         text = ""
 
         for question in self.__questions:
@@ -56,7 +59,14 @@ class CodingProject:
 
         if len(text) < 5:
             raise ValueError(f"Insufficient values for tag '{tag}'")
-
+        
+        if as_buffer:
+            img = self.__chart_generator.wordcloud(text, **kwargs).to_image()
+            buffer = BytesIO()
+            img.save(buffer, format="PNG")
+            buffer.seek(0)
+            return buffer
+    
         return self.__chart_generator.wordcloud(text, **kwargs).to_image()
 
     def generate_most_common_tags_chart(self, **kwargs) -> Image.Image:
