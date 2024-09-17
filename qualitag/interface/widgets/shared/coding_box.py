@@ -29,6 +29,8 @@ class CodingBox(ctk.CTkTextbox, Observer):
         self.__manager = tags_manager
         self.__debounce: Optional[str] = None
 
+        self.configure(wrap="word")
+
         # Subcribing to tags_manager events
         self.__events_mng = events
         events.attach(self)
@@ -117,10 +119,7 @@ class CodingBox(ctk.CTkTextbox, Observer):
         if event.event_type == "deleted":
             if isinstance(event.tag, str):
                 self.tag_delete(event.tag)
-        elif (
-            self.winfo_exists()
-            and event.event_type == "clicked"
-        ):
+        elif self.winfo_exists() and event.event_type == "clicked":
             selection = self.get_selection(as_index=True)
             if selection is not None:
                 self.tag_add(event.tag.full_name, *selection)
