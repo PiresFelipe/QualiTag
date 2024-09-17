@@ -1,8 +1,9 @@
+from customtkinter import CTkFont, CTkScrollableFrame
+
 from qualitag.interface.utils.event_observer import Observer
-from qualitag.src import TagsManager
-from qualitag.interface.widgets.tags.tag_views import TagView
 from qualitag.interface.utils.tags_events import TagEventsManager
-from customtkinter import CTkScrollableFrame, CTkFont
+from qualitag.interface.widgets.tags.tag_views import TagView
+from qualitag.src import TagsManager
 
 
 class TagsList(CTkScrollableFrame, Observer):

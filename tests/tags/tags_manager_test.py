@@ -1,5 +1,6 @@
 import pytest
-from qualitag.src import TagsManager, Tag
+
+from qualitag.src import Tag, TagsManager
 
 
 @pytest.fixture

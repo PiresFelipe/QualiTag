@@ -1,6 +1,7 @@
 from typing import Literal, Union
-from qualitag.src import Tag
+
 from qualitag.interface.utils import Event, Observer
+from qualitag.src import Tag
 
 
 class TagEventsManager:

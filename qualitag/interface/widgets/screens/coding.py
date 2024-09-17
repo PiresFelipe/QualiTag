@@ -1,8 +1,10 @@
 import os
 from tkinter import filedialog
+
 import customtkinter as ctk
 
 from qualitag.src import Question, export
+
 from ..shared.coding_box import CodingBox
 from ..tags.tags_list import TagsList
 

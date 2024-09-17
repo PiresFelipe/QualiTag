@@ -1,9 +1,10 @@
 import os
-from typing import Any
-import customtkinter as ctk
 from tkinter import filedialog
+from typing import Any
 
-from qualitag import Answer, import_data, Question
+import customtkinter as ctk
+
+from qualitag.src import Answer, Question, import_data
 
 
 class CreateProjectScreen(ctk.CTkFrame):

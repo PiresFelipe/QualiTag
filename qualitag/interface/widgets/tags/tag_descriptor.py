@@ -1,12 +1,13 @@
-from typing import Optional
-import customtkinter as ctk
 from tkinter import messagebox
+from typing import Optional
+
+import customtkinter as ctk
 
 from qualitag.interface.utils.event_observer import Event
-from ...utils.event_observer import Observer
-from ....src import Tag
-from ....src import TagsManager
+
+from ....src import Tag, TagsManager
 from ...utils import fonts
+from ...utils.event_observer import Observer
 
 
 class TagDescriptor(ctk.CTkFrame, Observer):

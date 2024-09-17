@@ -1,7 +1,10 @@
-import customtkinter as ctk
-from tkinter import filedialog, StringVar, messagebox
 import os
+from tkinter import StringVar, filedialog, messagebox
+
+import customtkinter as ctk
+
 from qualitag.src import CodingProject
+
 from ...utils import fonts
 
 

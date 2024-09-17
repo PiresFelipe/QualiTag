@@ -1,5 +1,7 @@
-import customtkinter as ctk
 from tkinter import IntVar
+
+import customtkinter as ctk
+
 from qualitag.src import Question
 
 

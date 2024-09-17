@@ -1,6 +1,8 @@
 import customtkinter as ctk
+
+from qualitag.src import CodingProject
+
 from ..shared import ImageDisplay
-from qualitag import CodingProject
 
 
 class DashboardScreen(ctk.CTkFrame):

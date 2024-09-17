@@ -1,8 +1,10 @@
-import customtkinter as ctk
 from tkinter import StringVar, messagebox
+
+import customtkinter as ctk
+
+from qualitag.interface.utils.tags_events import TagEventsManager
 from qualitag.interface.widgets.tags.tag_views import TagPreview
 from qualitag.src.tags.tags_manager import TagsManager
-from qualitag.interface.utils.tags_events import TagEventsManager
 
 
 class TagCreator(ctk.CTkToplevel):

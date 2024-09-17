@@ -1,9 +1,12 @@
-import customtkinter as ctk
 from tkinter import StringVar
-from ..shared import QuestionsSelector, AnswerSelector
-from ..tags import TagsList
-from ...utils import fonts
+
+import customtkinter as ctk
+
 from qualitag.src import CodingProject, Question
+
+from ...utils import fonts
+from ..shared import AnswerSelector, QuestionsSelector
+from ..tags import TagsList
 
 
 class ProjectScreen(ctk.CTkFrame):

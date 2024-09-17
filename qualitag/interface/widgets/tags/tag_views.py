@@ -1,8 +1,9 @@
-from typing import TypedDict
 from tkinter import StringVar
+from typing import TypedDict
 
-from customtkinter import CTkButton, CTkFont
 from colour import Color
+from customtkinter import CTkButton, CTkFont
+
 from qualitag.interface.utils.tags_events import TagEventsManager
 from qualitag.src import Tag
 

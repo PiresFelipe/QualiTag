@@ -1,6 +1,8 @@
-import customtkinter as ctk
-from ...utils import fonts
 from tkinter import filedialog, messagebox
+
+import customtkinter as ctk
+
+from ...utils import fonts
 
 
 class FileMenu(ctk.CTkFrame):

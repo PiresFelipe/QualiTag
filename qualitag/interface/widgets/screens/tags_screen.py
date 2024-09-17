@@ -1,9 +1,12 @@
 from typing import Callable
+
 import customtkinter as ctk
+
 from qualitag.src import TagsManager
-from ..tags import TagDescriptor
-from ...utils.tags_events import TagEventsManager
+
 from ...utils import fonts
+from ...utils.tags_events import TagEventsManager
+from ..tags import TagDescriptor
 
 
 class TagsScreen(ctk.CTkFrame):

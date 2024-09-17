@@ -1,6 +1,7 @@
 from os.path import splitext
-from .importer_base import ImporterBase
+
 from .excel_importer import ExcelImporter
+from .importer_base import ImporterBase
 from .pdf_importer import PDFImporter
 
 

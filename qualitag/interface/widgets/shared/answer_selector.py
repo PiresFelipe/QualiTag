@@ -1,8 +1,9 @@
 import customtkinter as ctk
 
 from qualitag.src import Question
-from .coding_box import CodingBox
+
 from ...utils import fonts
+from .coding_box import CodingBox
 
 
 class AnswerSelector(ctk.CTkFrame):

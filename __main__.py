@@ -1,9 +1,11 @@
-from typing import Tuple
-import customtkinter as ctk
-import qualitag as qtg
 from tkinter import filedialog, messagebox
-from qualitag.src import CodingProject
+from typing import Tuple
+
+import customtkinter as ctk
+
+import qualitag as qtg
 from qualitag.interface.utils import fonts
+from qualitag.src import CodingProject
 
 
 class App(ctk.CTk):

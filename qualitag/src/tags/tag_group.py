@@ -1,6 +1,8 @@
 from typing import Optional, Union
+
 from attrs import define, field
 from attrs.validators import instance_of, optional
+
 from . import Tag
 
 

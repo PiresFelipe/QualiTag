@@ -1,12 +1,14 @@
 import os
 import pickle
 from io import BytesIO
-from qualitag.src.questions import Question
-from qualitag.src.tags import TagsManager
-from qualitag.src.importer import import_data
-from qualitag.src.exporter import export
-from qualitag.src.reports import ChartReport
+
 from PIL import Image
+
+from qualitag.src.exporter import export
+from qualitag.src.importer import import_data
+from qualitag.src.questions import Question
+from qualitag.src.reports import ChartReport
+from qualitag.src.tags import TagsManager
 
 
 class CodingProject:

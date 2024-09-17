@@ -1,6 +1,7 @@
-from typing import Optional, Union
-from .tag import Tag
 from collections import defaultdict
+from typing import Optional, Union
+
+from .tag import Tag
 
 # from .tag_group import TagGroup    ## future usage
 

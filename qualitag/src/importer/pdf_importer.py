@@ -1,7 +1,7 @@
 from PyPDF2 import PdfReader
 
-from .importer_base import ImporterBase
 from ..questions import Answer
+from .importer_base import ImporterBase
 
 
 class PDFImporter(ImporterBase):

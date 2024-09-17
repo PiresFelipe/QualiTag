@@ -1,5 +1,6 @@
 # pylint: disable=missing-module-docstring
 from typing import Optional
+
 from attrs import define, field
 from attrs.validators import instance_of, optional
 

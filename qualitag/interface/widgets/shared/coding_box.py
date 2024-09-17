@@ -1,11 +1,12 @@
+from tkinter import Event, TclError
 from typing import Optional
-import customtkinter as ctk
-from tkinter import TclError, Event
 
-from qualitag.interface.utils import Observer
-from qualitag.interface.utils import TagEventsManager
-from qualitag.src import TagsManager, Answer
+import customtkinter as ctk
+
+from qualitag.interface.utils import Observer, TagEventsManager
+from qualitag.src import Answer, TagsManager
 from qualitag.utils import convert_lines_to_char_idx, covert_char_idx_to_lines
+
 from ..tags.tag_views import TagView
 
 

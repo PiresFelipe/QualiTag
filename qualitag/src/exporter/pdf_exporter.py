@@ -1,13 +1,14 @@
 from __future__ import annotations
-from .exporter_base import ExporterBase
+
 from typing import TYPE_CHECKING
 
 from reportlab.lib.pagesizes import A4
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.units import mm
-
+from reportlab.platypus import Image, Paragraph, SimpleDocTemplate, Spacer
 from wordcloud import get_single_color_func
+
+from .exporter_base import ExporterBase
 
 if TYPE_CHECKING:
     from qualitag.src import CodingProject

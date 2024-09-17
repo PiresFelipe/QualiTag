@@ -1,8 +1,10 @@
-from typing import Union
-from qualitag.src import Tag
 from abc import ABC, abstractmethod
+from typing import Union
+
 from attrs import define, field
 from attrs.validators import in_
+
+from qualitag.src import Tag
 
 EVENT_TYPES = ["created", "clicked", "deleted"]
 
