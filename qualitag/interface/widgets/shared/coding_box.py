@@ -44,14 +44,14 @@ class CodingBox(ctk.CTkTextbox, Observer):
         end = convert_lines_to_char_idx(self, "sel.last")
         _added = self.__answer.associate_tag(tag, start, end)
         if _added:
-            self.__manager.increase_counter(tag)
+            self.__manager.counter.increment(tag)
 
     def __dissociate_tag(self, tag: str, _start: str, _end: str):
         start = convert_lines_to_char_idx(self, _start)
         end = convert_lines_to_char_idx(self, _end)
         self.__answer.dissociate_tag(tag, start, end)
         self.tag_remove(tag, _start, _end)
-        self.__manager.decrease_counter(tag)
+        self.__manager.counter.decrement(tag)
 
     def set_text(self, text: str):
         """

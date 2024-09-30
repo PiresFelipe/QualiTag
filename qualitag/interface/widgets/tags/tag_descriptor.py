@@ -89,7 +89,7 @@ class TagDescriptor(ctk.CTkFrame, Observer):
         _text.bind("<Button-1>", lambda _: self.change_description(tag))
 
         _count = ctk.CTkLabel(
-            self.__count_col, text=str(self.__manager.get_count(tag.name)), font=font
+            self.__count_col, text=str(self.__manager.counter.get_count(tag.name)), font=font
         )
         _count.pack(pady=[0, 10], fill="x", expand=True)
         _count.bind("<Button-1>", lambda _: self.change_description(tag))
