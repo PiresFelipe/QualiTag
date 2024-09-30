@@ -6,38 +6,26 @@ on:
     branches:
       - main
 
+name: Create Release
+
 jobs:
-  # Job para criar uma release quando houver push na main
-  release:
+  build:
+    name: Create Release
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout the repository
-        uses: actions/checkout@v3
-
-      # Configuração da tag e da versão
-      - name: Get version tag
-        id: get_tag
-        run: |
-          # Gerar um novo número de tag baseado no commit anterior
-          # Aqui incrementa a versão patch (v1.0.0 -> v1.0.1)
-          TAG=$(git describe --tags --abbrev=0)
-          NEW_TAG=$(echo $TAG | awk -F. '{$NF = $NF + 1;} 1' | sed 's/ /./g')
-          echo "new_tag=$NEW_TAG" >> $GITHUB_ENV
-
-      # Criação da tag e da release
-      - name: Create new tag
-        run: |
-          git tag ${{ env.new_tag }}
-          git push origin ${{ env.new_tag }}
-
-      - name: Create GitHub Release
-        uses: actions/create-release@v1
+      - name: Checkout code
+        uses: actions/checkout@master
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@latest
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Token para criar a release
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ env.new_tag }}
-          release_name: Release ${{ env.new_tag }}
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
           body: |
-            Automática criação de release para a tag ${{ env.new_tag }}.
+            Changes in this Release
+            - First Change
+            - Second Change
           draft: false
           prerelease: false
