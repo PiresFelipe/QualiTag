@@ -2,6 +2,7 @@ from collections import defaultdict
 from typing import Optional, Union
 
 from .tag import Tag
+from .tags_counter import TagsCounter
 
 # from .tag_group import TagGroup    ## future usage
 
@@ -12,10 +13,10 @@ class TagsManager:
 
         # self.__groups: list[TagGroup] = [] # future usage
         self.__tags: dict[str, Tag] = {}
-        self.__counter: defaultdict[str, int] = defaultdict(int)
+        self.__counter = TagsCounter()
 
     @property
-    def counter(self) -> dict[str, int]:
+    def counter(self) -> TagsCounter:
         return self.__counter
 
     def create_tag(
@@ -85,7 +86,7 @@ class TagsManager:
 
         try:
             del self.__tags[tag_name.lower()]
-            del self.__counter[tag_name.lower()]
+            self.__counter.delete(tag_name)
         except KeyError as exc:
             raise ValueError(f"Tag with name {tag_name} does not exist") from exc
 
@@ -100,37 +101,3 @@ class TagsManager:
         if sort:
             return sorted(self.__tags.values(), key=lambda tag: tag.name)
         return list(self.__tags.values())
-
-    def increase_counter(self, tag_name: str) -> None:
-        """
-        Increases the counter of the given tag.
-
-        Args:
-        ---
-            tag_name (str): The name of the tag to increase the counter.
-        """
-        self.__counter[tag_name.lower()] += 1
-
-    def decrease_counter(self, tag_name: str) -> None:
-        """
-        Decreases the counter of the given tag.
-
-        Args:
-        ---
-            tag_name (str): The name of the tag to decrease the counter.
-        """
-        self.__counter[tag_name.lower()] = max(0, self.__counter[tag_name.lower()] - 1)
-
-    def get_count(self, tag_name: str) -> int:
-        """
-        Gets the counter of the given tag.
-
-        Args:
-        ---
-            tag_name (str): The name of the tag to get the counter.
-
-        Returns:
-        ---
-            int: The counter of the given tag.
-        """
-        return self.__counter[tag_name.lower()]
