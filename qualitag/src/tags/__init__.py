@@ -1,5 +1,5 @@
 from .tag import Tag
-from .tag_group import TagGroup
 from .tags_manager import TagsManager
+from .tags_counter import TagsCounter
 
-__all__ = ["Tag", "TagGroup", "TagsManager"]
+__all__ = ["Tag", "TagsManager"]

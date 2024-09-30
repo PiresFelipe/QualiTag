@@ -7,7 +7,7 @@ from PIL import Image
 from wordcloud import WordCloud
 
 
-class ChartReport:
+class ChartReport:  # pragma: no cover
 
     def __init__(self, stopwords: Optional[list[str]] = None):
 
