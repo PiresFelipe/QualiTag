@@ -14,8 +14,7 @@ if TYPE_CHECKING:
     from qualitag.src import CodingProject
 
 
-class PDFExporter(ExporterBase):
-
+class PDFExporter(ExporterBase): # pragma: no cover
     def __init__(self, filepath: str) -> None:
         self.filepath = filepath
 

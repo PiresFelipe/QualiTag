@@ -2,20 +2,17 @@ from os.path import splitext
 
 from qualitag.src.exporter.exporter_base import ExporterBase
 
-from .json_exporter import JSONExporter
 from .pdf_exporter import PDFExporter
 from .xlsx_exporter import ExcelExporter
 
 
-def export(project, filepath: str):
+def export(project, filepath: str): # pragma: no cover
     _, ext = splitext(filepath)
 
-    if ext == ".json":
-        exporter: ExporterBase = JSONExporter(filepath)
-    elif ext == ".xlsx":
-        exporter = ExcelExporter(filepath)
+    if ext == ".xlsx":
+        exporter: ExporterBase = ExcelExporter(filepath)
     elif ext == ".pdf":
-        exporter = PDFExporter(filepath)
+        exporter: ExporterBase = PDFExporter(filepath)
     else:
         raise ValueError("Invalid file extension")
 

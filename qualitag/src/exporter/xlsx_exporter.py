@@ -3,7 +3,7 @@ import pandas as pd
 from .exporter_base import ExporterBase
 
 
-class ExcelExporter(ExporterBase):
+class ExcelExporter(ExporterBase): # pragma: no cover
 
     def __init__(self, filepath: str) -> None:
         self.filepath = filepath

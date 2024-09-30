@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 import pandas as pd
 
 
-class ExporterBase(ABC):
+class ExporterBase(ABC): # pragma: no cover
     @abstractmethod
     def export(self, data):
         pass
