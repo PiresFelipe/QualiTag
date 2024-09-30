@@ -1,3 +1,5 @@
+import sys
+
 from tkinter import filedialog, messagebox
 from typing import Tuple
 
@@ -7,6 +9,14 @@ import qualitag as qtg
 from qualitag.interface.utils import fonts
 from qualitag.src import CodingProject
 
+if getattr(sys, "frozen", False):
+    # If the application is run as a bundle, the PyInstaller bootloader
+    # extends the sys module by a flag frozen=True and sets the app
+    # path into variable _MEIPASS'.
+    import pyi_splash
+    # Update the text on the splash screen
+    pyi_splash.update_text("Carregando QualiTag...")
+    pyi_splash.update_text("Só mais um pouquinho...")
 
 class App(ctk.CTk):
 
@@ -175,4 +185,6 @@ class App(ctk.CTk):
 
 if __name__ == "__main__":
     app = App()
+    if getattr(sys, "frozen", False):
+        pyi_splash.close()
     app.mainloop()
