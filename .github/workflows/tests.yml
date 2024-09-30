@@ -1,0 +1,43 @@
+name: Run Tests with Coverage
+
+# Dispara o workflow em push para as branches main e dev, e em pull_request
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  # Job: Rodar os testes unitários com pytest e coverage
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout do repositório
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+
+      # Instalação do Python e dependências
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'  # Versão do Python
+
+      # Instala as dependências
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest pytest-cov
+
+      # Rodar os testes unitários com pytest e gerar cobertura
+      - name: Run tests with coverage
+        run: |
+          pytest --cov=qualitag/src --cov-fail-under=80
+
+      # Mostrar relatório de cobertura no console (opcional)
+      - name: Display coverage report
+        run: |
+          pytest --cov=qualitag/src --cov-report=term
