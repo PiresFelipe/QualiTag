@@ -19,7 +19,21 @@ class PDFExporter(ExporterBase): # pragma: no cover
         self.filepath = filepath
 
     def export(self, project: CodingProject):
-
+        """
+        Exports the given CodingProject to a PDF file.
+        This method generates a PDF document containing the details of the provided
+        CodingProject, including its questions, tags, and visual representations such
+        as charts and word clouds.
+        Args:
+            project (CodingProject): The coding project to be exported to a PDF.
+        The PDF includes the following sections:
+            - Questions: Lists all questions in the project with their respective answers.
+            - Tags: Displays a chart of the most common tags and details for each tag,
+              including a word cloud if the tag is used more than three times.
+        Raises:
+            ReportLab-related exceptions if there are issues with PDF generation.
+        """
+        
         doc = SimpleDocTemplate(self.filepath, pagesize=A4)
         elements = []
         styles = getSampleStyleSheet()

@@ -1,0 +1,24 @@
+site_name: Qualitag documentation
+nav:
+  - Home: index.md
+  - Tags:
+    - Tag: tags/tag.md
+    - Counter: tags/counter.md
+    - Manager: tags/manager.md
+  - Questions:
+    - Question: questions/question.md
+    - Answer: questions/answer.md
+  - Importers:
+    - PDF: importer/pdf.md
+    - Text: importer/txt.md
+  - Exporters:
+    - PDF: exporter/pdf.md
+    - Excel: exporter/excel.md
+theme:
+  name: material
+  locale: pt_BR
+plugins:
+- mkdocstrings:
+    handlers:
+      python:
+        paths: [qualitag/src]  # search packages in the src folder

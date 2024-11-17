@@ -9,6 +9,17 @@ class ExcelExporter(ExporterBase): # pragma: no cover
         self.filepath = filepath
 
     def export(self, project):
+        """
+        Exports the project's questions and their answers to an Excel file.
+        Args:
+            project (Project): The project containing questions and answers to be exported.
+        The Excel file will have one sheet per question, with each sheet containing the following columns:
+            - answer: The index of the answer.
+            - tag: The tag associated with the answer.
+            - text: The text associated with the tag.
+        The file is saved to the path specified by `self.filepath`.
+        """
+        
         writer = pd.ExcelWriter(self.filepath, engine="openpyxl")
         for i, question in enumerate(project.questions):
             data = {

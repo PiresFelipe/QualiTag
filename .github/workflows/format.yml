@@ -1,8 +1,10 @@
 name: Format Python Code
+
 on: push
   branches:
     - main
     - dev
+
 jobs:
   python-code-format:
     runs-on: ubuntu-20.04
